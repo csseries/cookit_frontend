@@ -13,5 +13,5 @@ setup(name='cookit_frontend',
       test_suite='tests',
       # include_package_data: to install data from MANIFEST.in
       include_package_data=True,
-      scripts=['scripts/cookit_frontend-run'],
+      scripts=['scripts/app.py'],
       zip_safe=False)
