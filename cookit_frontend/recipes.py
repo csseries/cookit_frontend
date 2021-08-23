@@ -2,7 +2,8 @@ import os
 import requests
 
 
-api_keys = os.getenv('SPOONACULAR_KEYS').split(',')
+#api_keys = os.getenv('SPOONACULAR_KEYS').split(',')
+api_keys = None
 
 # try to load env variable from Heroku
 if api_keys == None:
