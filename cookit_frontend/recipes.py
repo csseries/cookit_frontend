@@ -7,9 +7,9 @@ api_keys = None
 
 # try to load env variable from Heroku
 if api_keys == None:
-    api_keys = os.environ['SPOONACULAR_KEYS']
+    api_keys = os.environ['SPOONACULAR_KEYS'].split(',')
 
-print(api_keys)
+print('Found keys in env: ', api_keys)
 
 url = 'https://api.spoonacular.com/recipes/complexSearch'
 
