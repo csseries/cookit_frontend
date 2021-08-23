@@ -8,6 +8,8 @@ api_keys = os.getenv('SPOONACULAR_KEYS').split(',')
 if api_keys == None:
     api_keys = os.environ['SPOONACULAR_KEYS']
 
+print(api_keys)
+
 url = 'https://api.spoonacular.com/recipes/complexSearch'
 
 
