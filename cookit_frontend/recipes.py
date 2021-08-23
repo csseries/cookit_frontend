@@ -4,6 +4,10 @@ import requests
 
 api_keys = os.getenv('SPOONACULAR_KEYS').split(',')
 
+# try to load env variable from Heroku
+if api_keys == None:
+    api_keys = os.environ['SPOONACULAR_KEYS']
+
 url = 'https://api.spoonacular.com/recipes/complexSearch'
 
 
