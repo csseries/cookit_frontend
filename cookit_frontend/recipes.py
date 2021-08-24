@@ -36,4 +36,4 @@ def get_recipes(query, ingredients, exclusions):
     if response.status_code == 200:
         return response.json()['results']
 
-    return None
+    return []
