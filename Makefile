@@ -12,7 +12,6 @@ black:
 
 test:
 	@coverage run -m pytest tests/*.py
-	@coverage report -m app.py cookit_frontend/*.py
 
 ftest:
 	@Write me
