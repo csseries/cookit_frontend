@@ -1,2 +1,10 @@
 streamlit
 requests
+
+# tests/linter
+black
+coverage
+flake8
+pytest
+yapf
+twine
