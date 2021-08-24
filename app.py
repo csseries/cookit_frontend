@@ -24,8 +24,13 @@ exclusions_parsed = [excl for excl in exclusions.split(',')]
 # this is just to avoid making too many requests during development
 if st.button('get recipes'):
     recipes = get_recipes(ingredients_parsed, exclusions_parsed)
-    for i in range(1,11):
-        st.image(recipes[i]['image'], recipes[i]['title'], use_column_width=False)
 
-    #Add link to the orginal recipe next to the picture or underneath
-    #recipes[i]["sourceUrl"]
+    if len(recipes) > 0:
+        for i in range(min(len(recipes), 10)):
+            st.image(recipes[i]['image'], recipes[i]['title'], use_column_width=False)
+
+        #Add link to the orginal recipe next to the picture or underneath
+        #recipes[i]["sourceUrl"]
+
+    elif len(recipes) == 0:
+        st.write("Sorry, we couldn't find any recipes")
