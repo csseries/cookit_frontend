@@ -16,6 +16,9 @@ st.write('Upload a picture from your fridge or pantry and get recipe suggestions
 ingredients = st.text_input('Add some ingredients (comma-separated)', 'Garlic, Butter, Cucumber')
 ingredients_parsed = [ingr for ingr in ingredients.split(',')]
 
+must_haves = st.text_input('Add ingredients that must be included (comma-separated)', 'Tomato')
+must_haves_parsed = [must for must in must_haves.split(',')]
+
 exclusions = st.text_input("What don't you like in your food? (comma-separated)", "Coriander, Basil")
 exclusions_parsed = [excl for excl in exclusions.split(',')]
 
@@ -23,7 +26,7 @@ exclusions_parsed = [excl for excl in exclusions.split(',')]
 
 # this is just to avoid making too many requests during development
 if st.button('get recipes'):
-    recipes = get_recipes(ingredients_parsed, exclusions_parsed)
+    recipes = get_recipes(ingredients_parsed, must_haves_parsed, exclusions_parsed)
 
     if len(recipes) > 0:
         for i in range(min(len(recipes), 10)):
