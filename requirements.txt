@@ -1,3 +1,10 @@
 streamlit
 requests
-python-dotenv
+
+# tests/linter
+black
+coverage
+flake8
+pytest
+yapf
+twine

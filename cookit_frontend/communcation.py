@@ -4,11 +4,11 @@ BACKEND_URL = 'https://fast-drake-318911-6gdu3ouwsa-ey.a.run.app/predict'
 
 
 def get_predictions(image):
-    #files = {'image': open(image, 'rb')}
     files = {'image': image}
     response = requests.post(BACKEND_URL, files=files)
-    print(response)
-    if response.status_code == 200:
-        return response.json()['prediction']
 
+    if response.status_code == 200:
+        print('Received predictions: ', response.json()['prediction'])
+        return response.json()['prediction']
+    print(f'Something went wong. Received code {response.status_code}')
     return []
