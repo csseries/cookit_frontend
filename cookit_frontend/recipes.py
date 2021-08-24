@@ -2,12 +2,12 @@ import os
 import requests
 
 
+# first try to load env variable from local file
 api_keys = os.getenv('SPOONACULAR_KEYS')
 
 # try to load env variable from Heroku
 if api_keys == None:
     api_keys = os.environ['SPOONACULAR_KEYS'].split(',')
-# this should make sure we can also run requests locally
 else:
     api_keys = api_keys.split(',')
 
@@ -21,8 +21,10 @@ url = 'https://api.spoonacular.com/recipes/complexSearch'
 def get_recipes(ingredients):
     params = {'query': ingredients,
               'apiKey': api_keys[0]}
-    response = requests.get(url, params).json()
+    response = requests.get(url, params)
 
     # TODO: if response failed due to reached quota, switch to another api key
+    if response.status_code == 200:
+        return response.json()['results']
 
-    return response['results']
+    return None
