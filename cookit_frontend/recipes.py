@@ -2,16 +2,14 @@ import os
 import requests
 
 
-# first try to load env variable from local file
-api_keys = os.getenv('SPOONACULAR_KEYS')
-
-# try to load env variable from Heroku
-if api_keys == None:
+# load env variable from Heroku or from local environment
+try:
     api_keys = os.environ['SPOONACULAR_KEYS'].split(',')
-else:
-    api_keys = api_keys.split(',')
+    print('Found keys in env: ', api_keys)
+except:
+    api_keys = []
+    print('WARNING: No spoonacular API keys found in environment!')
 
-print('Found keys in env: ', api_keys)
 
 BASE_URI = 'https://api.spoonacular.com/recipes/complexSearch'
 
