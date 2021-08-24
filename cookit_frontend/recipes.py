@@ -13,15 +13,23 @@ else:
 
 print('Found keys in env: ', api_keys)
 
-url = 'https://api.spoonacular.com/recipes/complexSearch'
+BASE_URI = 'https://api.spoonacular.com/recipes/complexSearch'
 
 
 
 
-def get_recipes(ingredients):
-    params = {'query': ingredients,
-              'apiKey': api_keys[0]}
-    response = requests.get(url, params)
+def get_recipes(ingredients, exclusions):
+    params = {'apiKey': api_keys[0],
+              "includeIngredients": ingredients,
+              "excludeIngredients": exclusions,
+              "instructionsRequired": True,
+              "addRecipeInformation": True,
+              "fillIngredients": True,
+              "limitLicense": True,
+              "ignorePantry": True,
+              "ranking": 2}
+
+    response = requests.get(BASE_URI, params)
 
     # TODO: if response failed due to reached quota, switch to another api key
     if response.status_code == 200:
