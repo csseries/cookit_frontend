@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from cookit_frontend.recipes import get_recipes
 
 
@@ -9,8 +10,10 @@ from cookit_frontend.recipes import get_recipes
 
 #To Do: Add Logo
 
-st.write('Upload a picture from your fridge or pantry and get recipe suggestions')
+st.write('Simply upload a picture of your fridge and get recipe suggestions based on what you have at home!')
+
 #Option to upload jpg/ png image that will be used from the model
+st.file_uploader("Upload picture(s) of your fridge or pantry", type=["png", "jpg"], accept_multiple_files=True)
 
 #For now we use a list of ingredients, later we need a list from the model that will be used for the API call
 ingredients = st.text_input('Add some ingredients (comma-separated)', 'Garlic, Butter, Cucumber')
