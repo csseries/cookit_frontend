@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from cookit_frontend.recipes import get_recipes
+from cookit_frontend.communcation import get_predictions
 
 
 
@@ -13,11 +14,10 @@ from cookit_frontend.recipes import get_recipes
 st.write('Simply upload a picture of your fridge and get recipe suggestions based on what you have at home!')
 
 #Option to upload jpg/ png image that will be used from the model
-uploaded_files = st.file_uploader("Upload picture(s) of your fridge or pantry", type=["png", "jpg"], accept_multiple_files=True)
+uploaded_file = st.file_uploader("Upload picture(s) of your fridge or pantry", type=["png", "jpg"], accept_multiple_files=False)
 
-#For now we use a list of ingredients, later we need a list from the model that will be used for the API call
-ingredients = st.text_input('Add some ingredients (comma-separated)', 'Garlic, Butter, Cucumber')
-ingredients_parsed = [ingr for ingr in ingredients.split(',')]
+if uploaded_file:
+    ingredients = get_predictions(uploaded_file)
 
 must_haves = st.text_input('Add ingredients that must be included (comma-separated)', 'Tomato')
 must_haves_parsed = [must for must in must_haves.split(',')]
