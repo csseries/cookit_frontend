@@ -1,8 +1,8 @@
 import streamlit as st
 import os
+import base64
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
-
 
 
 '''
@@ -43,3 +43,33 @@ if uploaded_file:
                     st.write("Cook this [recipe](%s) now" % url)
             elif len(recipes) == 0:
                 st.write("Sorry, we couldn't find any recipes")
+
+
+#Creating background
+
+@st.cache
+def load_image(path):
+    with open(path, 'rb') as f:
+        data = f.read()
+    encoded = base64.b64encode(data).decode()
+    return encoded
+
+def image_tag(path):
+    encoded = load_image(path)
+    tag = f'<img src="data:image/png;base64,{encoded}">'
+    return tag
+
+def background_image_style(path):
+    encoded = load_image(path)
+    style = f'''
+    <style>
+    .stApp {{
+        background-image: url("data:image/png;base64,{encoded}");
+        background-size: cover;
+    }}
+    </style>
+    '''
+    return style
+
+image_path = 'frontend_img/background.png'
+st.write(background_image_style(image_path), unsafe_allow_html=True)
