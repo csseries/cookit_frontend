@@ -4,6 +4,7 @@ import base64
 from PIL import Image
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
+from cookit_frontend.page_elements import load_image, background_image_style
 
 st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png")
 
@@ -50,32 +51,7 @@ if uploaded_file:
                 st.write("Sorry, we couldn't find any recipes")
 
 
-#Creating background
-
-@st.cache
-def load_image(path):
-    with open(path, 'rb') as f:
-        data = f.read()
-    encoded = base64.b64encode(data).decode()
-    return encoded
-
-def image_tag(path):
-    encoded = load_image(path)
-    tag = f'<img src="data:image/png;base64,{encoded}">'
-    return tag
-
-def background_image_style(path):
-    encoded = load_image(path)
-    style = f'''
-    <style>
-    .stApp {{
-        background-image: url("data:image/png;base64,{encoded}");
-        background-size: cover;
-    }}
-    </style>
-    '''
-    return style
-
+# Background
 image_path = 'frontend_img/background.png'
 
 st.write(background_image_style(image_path), unsafe_allow_html=True)
