@@ -4,20 +4,15 @@ import base64
 from PIL import Image
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
-from cookit_frontend.page_elements import load_image, background_image_style
+from cookit_frontend.page_elements import *
 
-st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png")
+page_decorators()
 
-'''
-# Cookit
-'''
-#Logo + slogan
-#img = Image.open("frontend_img/logo.png")
-#st.image(img)
+page_title()
 
-#To Do: Add Logo
 
-st.write('Upload pictures of your ingredients and get recipe suggestions based on what you have at home!')
+
+write_text('Upload pictures of your ingredients and get recipe suggestions based on what you have at home!')
 
 #Option to upload jpg/ png image that will be used from the model
 uploaded_file = st.file_uploader("Upload picture(s) of your fridge or pantry", type=["png", "jpg"], accept_multiple_files=False)
@@ -51,7 +46,4 @@ if uploaded_file:
                 st.write("Sorry, we couldn't find any recipes")
 
 
-# Background
-image_path = 'frontend_img/background.png'
-
-st.write(background_image_style(image_path), unsafe_allow_html=True)
+background()
