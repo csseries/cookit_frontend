@@ -1,19 +1,22 @@
 import streamlit as st
 import os
 import base64
+from PIL import Image
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
 
-st.set_page_config(page_title='cookit')
+st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png")
 
 '''
 # Cookit
 '''
+#Logo + slogan
+#img = Image.open("frontend_img/logo.png")
+#st.image(img)
 
 #To Do: Add Logo
 
-
-st.write('Simply upload a picture of your ingredients and get recipe suggestions based on what you have at home!')
+st.write('Upload pictures of your ingredients and get recipe suggestions based on what you have at home!')
 
 #Option to upload jpg/ png image that will be used from the model
 uploaded_file = st.file_uploader("Upload picture(s) of your fridge or pantry", type=["png", "jpg"], accept_multiple_files=False)
@@ -25,7 +28,7 @@ if uploaded_file:
         #For now we use a list of ingredients, later we need a list from the model that will be used for the API call
         ingredients = st.text_input('Manually adjust ingredients (comma-separated)', ', '.join(ingredients))
         ingredients_parsed = [ingr for ingr in ingredients.split(',')]
-
+        
         must_haves = st.text_input('Add ingredients that must be included (comma-separated)', 'Tomato')
         must_haves_parsed = [must for must in must_haves.split(',')]
 
@@ -74,4 +77,5 @@ def background_image_style(path):
     return style
 
 image_path = 'frontend_img/background.png'
+
 st.write(background_image_style(image_path), unsafe_allow_html=True)
