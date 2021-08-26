@@ -29,6 +29,7 @@ def get_recipes(query, ingredients, exclusions):
               "ranking": 2}
 
     response = requests.get(BASE_URI, params)
+    print(params)
 
     # TODO: if response failed due to reached quota, switch to another api key
     if response.status_code == 200:

@@ -16,26 +16,20 @@ page_slogan()
 uploaded_file = page_pic_uploader()
 
 if uploaded_file:
-    
+
     ingredients = get_predictions(uploaded_file)
 
     if len(ingredients) > 0:
-        #For now we use a list of ingredients, later we need a list from the model that will be used for the API call
-        ingredients = st.text_input('Manually adjust ingredients (comma-separated)', ', '.join(ingredients))
-        ingredients_parsed = [ingr for ingr in ingredients.split(',')]
-        ingredients_parsed_ = st.multiselect('Check ingredients to include in recipes', ingredients_parsed)
-        
-        must_haves = st.text_input('Add ingredients that must be included (comma-separated)', 'Tomato')
-        must_haves_parsed = [must for must in must_haves.split(',')]
-
-        exclusions = st.text_input("What don't you like in your food? (comma-separated)", "Coriander, Basil")
+        ingredients_selected = st.multiselect('Check ingredients to include in recipes', ingredients, default=ingredients)
+        must_haves = st.multiselect('Add ingredients that must be included', ingredients_selected)
+        exclusions = st.text_input("What don't you like in your food? (comma-separated)")
         exclusions_parsed = [excl for excl in exclusions.split(',')]
 
         #Add cuisine preferences with checkboxes
 
         # this is just to avoid making too many requests during development
         if st.button('get recipes'):
-            recipes = get_recipes(ingredients_parsed, must_haves_parsed, exclusions_parsed)
+            recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed)
 
             if len(recipes) > 0:
                 for i in range(min(len(recipes), 10)):
