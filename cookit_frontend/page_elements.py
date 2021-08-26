@@ -3,6 +3,10 @@ import os
 import base64
 from PIL import Image
 
+
+def page_decorators():
+    return st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png")
+
 def load_image(path):
     with open(path, 'rb') as f:
         data = f.read()
@@ -25,3 +29,11 @@ def background_image_style(path):
     </style>
     '''
     return style
+
+def write_text(text):
+    
+    return st.write(text, unsafe_allow_html=True)
+
+def background():
+    image_path = 'frontend_img/background.png'
+    return st.write(background_image_style(image_path), unsafe_allow_html=True)
