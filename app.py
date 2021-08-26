@@ -10,20 +10,20 @@ page_decorators()
 
 page_title()
 
-
-
-write_text('Upload pictures of your ingredients and get recipe suggestions based on what you have at home!')
+page_slogan()
 
 #Option to upload jpg/ png image that will be used from the model
-uploaded_file = st.file_uploader("Upload picture(s) of your fridge or pantry", type=["png", "jpg"], accept_multiple_files=False)
+uploaded_file = page_pic_uploader()
 
 if uploaded_file:
+    
     ingredients = get_predictions(uploaded_file)
 
     if len(ingredients) > 0:
         #For now we use a list of ingredients, later we need a list from the model that will be used for the API call
         ingredients = st.text_input('Manually adjust ingredients (comma-separated)', ', '.join(ingredients))
         ingredients_parsed = [ingr for ingr in ingredients.split(',')]
+        ingredients_parsed_ = st.multiselect('Check ingredients to include in recipes', ingredients_parsed)
         
         must_haves = st.text_input('Add ingredients that must be included (comma-separated)', 'Tomato')
         must_haves_parsed = [must for must in must_haves.split(',')]
