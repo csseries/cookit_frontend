@@ -1,4 +1,5 @@
 from cookit_frontend.recipes import get_recipes
+import cookit_frontend.recipes
 
 
 def test_return_get_recipes():
@@ -8,3 +9,9 @@ def test_return_get_recipes():
     response = get_recipes(query, ingredients, exclusions)
 
     assert response is not None
+
+
+#Test that BASE_URI is complexSearch endpoint
+def test_base_uri():
+    BASE_URI = cookit_frontend.recipes.BASE_URI
+    assert BASE_URI == 'https://api.spoonacular.com/recipes/complexSearch'
