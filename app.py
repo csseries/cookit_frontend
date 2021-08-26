@@ -4,12 +4,14 @@ import base64
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
 
+st.set_page_config(page_title='cookit')
 
 '''
 # Cookit
 '''
 
 #To Do: Add Logo
+
 
 st.write('Simply upload a picture of your ingredients and get recipe suggestions based on what you have at home!')
 
