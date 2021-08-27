@@ -20,7 +20,7 @@ if uploaded_file:
     resized_file = resize_image(uploaded_file)
     ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
-    all_cuisines = ["I like all cuisines", "African", "American", "British", "Cajun", "Caribbean",
+    all_cuisines = ["African", "American", "British", "Cajun", "Caribbean",
                     "Chinese", "Eastern European", "European", "French",
                     "German", "Greek", "Indian", "Irish", "Italian", "Japanese",
                     "Jewish", "Korean", "Latin American", "Mediterranean",
@@ -41,9 +41,8 @@ if uploaded_file:
 
         #For now option to only select one cuisine since API seems to only check for one
         #Consider adding multiselect back later on
-        cuisine = st.selectbox('What cuisine would you like to cook?', all_cuisines)
-        if cuisine == "I like all cuisines":
-            cuisine = []
+        cuisine = st.multiselect('What cuisine would you like to cook?', all_cuisines, default=all_cuisines)
+        cuisines_formatted = ", ".join(cuisine)
 
         #Specify a specific diet
         diet = st.selectbox("Do you have any dietary restrictions?", dietary_resitrictions)
@@ -52,7 +51,7 @@ if uploaded_file:
 
         # this is just to avoid making too many requests during development
         if st.button('get recipes'):
-            recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed, cuisine, diet)
+            recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed, cuisines_formatted, diet)
 
             if len(recipes) > 0:
                 for i in range(min(len(recipes), 3)):
@@ -69,10 +68,9 @@ if uploaded_file:
                         if recipes[i]["missedIngredientCount"] > 0:
                             for j in range(len(recipes[i]["missedIngredients"])):
                                 missing_ingredients.append(recipes[i]["missedIngredients"][j]["name"])
-
                         st.write(f"You will need the following additional ingredients: {missing_ingredients}")
 
-            elif len(recipes) == 0:
+            else:
                 st.write("Sorry, we couldn't find any recipes")
     else:
         st.write("We couldn't find any ingredients on the picture, please upload another file")
