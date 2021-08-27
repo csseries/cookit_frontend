@@ -1,7 +1,8 @@
 import math
+import io
 from uuid import uuid1
 from pathlib import Path
-from PIL import Image, ImageOps, ImageDraw, ImageColor, ImageFont
+from PIL import Image, ImageDraw, ImageColor, ImageFont
 import streamlit as st
 import numpy as np
 
@@ -19,35 +20,29 @@ def save_uploaded_file(filename, bytes_image):
     return file_path
 
 
-@st.cache
-def resize_image(path, new_width=512, new_height=512):
-    pil_image = Image.open(path)
-    if pil_image.width > new_width or pil_image.height > new_height:
-        #pil_image = ImageOps.fit(pil_image, (new_width, new_height), Image.ANTIALIAS)
-        #pil_image_rgb = pil_image.convert("RGB")
-        pil_image.thumbnail((new_width, new_height), Image.ANTIALIAS)
-        pil_image.save(path, format="JPEG", quality=90)
-    return path
+def resize_image(image_buffer, max_width=512, max_height=512):
+    pil_image = Image.open(image_buffer)
+    if pil_image.width > max_width or pil_image.height > max_height:
+         pil_image.thumbnail((max_width, max_height), Image.ANTIALIAS)
+    return pil_image
 
 
-def draw_bounding_box_on_image(image_pil,
-                               ymin,
-                               xmin,
-                               ymax,
-                               xmax,
-                               color,
-                               font,
-                               thickness=4,
-                               display_str_list=()):
+def pil_to_buffer(pil_image):
+    buffer = io.BytesIO()
+    pil_image.save(buffer, "JPEG")
+    buffer.seek(0)
+    return buffer
+
+
+def draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, color,font,
+                               thickness=4, display_str_list=()):
     """Adds a bounding box to an image."""
     draw = ImageDraw.Draw(image_pil)
     im_width, im_height = image_pil.size
     (left, right, top, bottom) = (xmin * im_width, xmax * im_width,
                                   ymin * im_height, ymax * im_height)
-    draw.line([(left, top), (left, bottom), (right, bottom), (right, top),
-                (left, top)],
-                width=thickness,
-                fill=color)
+    draw.line([(left, top), (left, bottom), (right, bottom), (right, top), (left, top)],
+              width=thickness, fill=color)
 
     # If the total height of the display strings added to the top of the bounding
     # box exceeds the top of the image, stack the strings below the bounding box
@@ -74,13 +69,12 @@ def draw_bounding_box_on_image(image_pil,
         text_bottom -= text_height - 2 * margin
 
 
-@st.cache
-def draw_boxes(image_path, boxes, class_names, scores, max_boxes=10, min_score=0.1):
+#@st.cache
+def draw_boxes(image_pil, boxes, class_names, scores, max_boxes=10, min_score=0.1):
     """Overlay labeled boxes on an image with formatted scores and label names."""
     colors = list(ImageColor.colormap.values())
     font = ImageFont.load_default()
     boxes = np.array(boxes)
-    image_pil = Image.open(image_path)
 
     for i in range(min(len(class_names), max_boxes)):
         if scores[i] >= min_score:
@@ -88,14 +82,6 @@ def draw_boxes(image_path, boxes, class_names, scores, max_boxes=10, min_score=0
             display_str = "{}: {}%".format(class_names[i],
                                             int(100 * scores[i]))
             color = colors[hash(class_names[i]) % len(colors)]
-            draw_bounding_box_on_image(
-                image_pil,
-                ymin,
-                xmin,
-                ymax,
-                xmax,
-                color,
-                font,
-                display_str_list=[display_str])
-            #image_pil.save(image, format="JPEG", quality=90)
+            draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, color,
+                                       font, display_str_list=[display_str])
     return image_pil

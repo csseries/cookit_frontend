@@ -4,7 +4,7 @@ import base64
 from PIL import Image
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
-from cookit_frontend.image import save_uploaded_file, draw_boxes
+from cookit_frontend.image import resize_image, draw_boxes, pil_to_buffer
 from cookit_frontend.page_elements import *
 
 page_decorators()
@@ -17,12 +17,12 @@ page_slogan()
 uploaded_file = page_pic_uploader()
 
 if uploaded_file:
-    file_path = save_uploaded_file(uploaded_file.name, uploaded_file)
+    resized_file = resize_image(uploaded_file)
 
-    ingredients, scores, bboxes = get_predictions(uploaded_file)
+    ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
     if len(ingredients) > 0:
-        bbox_image = draw_boxes(file_path, bboxes, ingredients, scores)
+        bbox_image = draw_boxes(resized_file, bboxes, ingredients, scores)
         st.image(bbox_image)
 
         ingredients_selected = st.multiselect('Check ingredients to include in recipes', ingredients, default=ingredients)
@@ -43,6 +43,7 @@ if uploaded_file:
                     st.write("Cook this [recipe](%s) now" % url)
             elif len(recipes) == 0:
                 st.write("Sorry, we couldn't find any recipes")
-
+    else:
+        st.write("We couldn't find any ingredients on the picture, please upload another file")
 
 background()
