@@ -16,16 +16,16 @@ BASE_URI = 'https://api.spoonacular.com/recipes/complexSearch'
 
 
 
-def get_recipes(query, ingredients, exclusions):
+def get_recipes(query, ingredients, exclusions, cuisine):
     params = {'apiKey': api_keys[0],
               #The (natural language) recipe search query
               "query": query,
-              #The cuisine(s) of the recipes. One or more, comma separated (will be interpreted as 'OR')
-              #ToDo
               #A comma-separated list of ingredients that should/must be used in the recipes
               "includeIngredients": ingredients,
               #A comma-separated list of ingredients or ingredient types that the recipes must not contain
               "excludeIngredients": exclusions,
+              #The cuisine(s) of the recipes. One or more, comma separated (will be interpreted as 'OR')
+              "cuisine": cuisine,
               #Only recipes with instructions
               "instructionsRequired": True,
               "addRecipeInformation": True,
