@@ -37,7 +37,7 @@ def pil_to_buffer(pil_image):
         rather only a buffer or 'file-like' object.
     """
     buffer = io.BytesIO()
-    pil_image.save(buffer, "JPEG")
+    pil_image.save(buffer, pil_image.format)
     buffer.seek(0)
     return buffer
 
