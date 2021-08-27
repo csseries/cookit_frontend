@@ -43,7 +43,7 @@ if uploaded_file:
             recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed, cuisine)
 
             if len(recipes) > 0:
-                for i in range(min(len(recipes), 10)):
+                for i in range(min(len(recipes), 4)):
                     col1, col2 = st.columns([3,5])
                     with col1:
                         st.image(recipes[i]['image'], use_column_width=True)
