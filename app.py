@@ -35,12 +35,14 @@ if uploaded_file:
         st.image(bbox_image)
 
         ingredients_selected = st.multiselect('Check ingredients to include in recipes', ingredients, default=ingredients)
-        must_haves = st.multiselect('Add ingredients that must be included', ingredients_selected)
-        exclusions = st.text_input("What don't you like in your food? (comma-separated)")
-        exclusions_parsed = [excl for excl in exclusions.split(',')]
+        ingredients_selected_formatted = ", ".join(ingredients_selected)
 
-        #For now option to only select one cuisine since API seems to only check for one
-        #Consider adding multiselect back later on
+        must_haves = st.multiselect('Add ingredients that must be included', ingredients_selected)
+        must_haves_formatted = ", ".join(must_haves)
+
+        exclusions = st.text_input("What don't you like in your food? (comma-separated)")
+
+        #A comma-separated list of cuisines
         cuisine = st.multiselect('What cuisine would you like to cook?', all_cuisines, default=all_cuisines)
         cuisines_formatted = ", ".join(cuisine)
 
@@ -51,7 +53,7 @@ if uploaded_file:
 
         # this is just to avoid making too many requests during development
         if st.button('get recipes'):
-            recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed, cuisines_formatted, diet)
+            recipes = get_recipes(ingredients_selected_formatted, must_haves_formatted, exclusions, cuisines_formatted, diet)
 
             if len(recipes) > 0:
                 for i in range(min(len(recipes), 3)):
