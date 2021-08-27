@@ -61,3 +61,36 @@ def background():
     image_path = 'frontend_img/background.png'
     return st.write(background_image_style(image_path), unsafe_allow_html=True)
 
+
+def show_recipes(recipes, display_count):
+    print(f"Display {display_count} out of {len(recipes)} recipes")
+    for i in range(min(len(recipes), display_count)):
+        col1, col2 = st.columns([4, 5])
+        with col1:
+            #st.image(recipes[i]['image'], use_column_width=True)
+            st.write(" ") # makes sure we are vertically aligned with col2
+            show_img_with_href(recipes[i]['image'], recipes[i]["sourceUrl"])
+        with col2:
+            st.markdown(f"### {recipes[i]['title']}")
+            st.write(f"Cooking time: {recipes[i]['readyInMinutes']} minutes")
+            st.write("Cook this [recipe](%s) now" % recipes[i]["sourceUrl"])
+
+            #Additional ingredients
+            missing_ingredients = []
+            if recipes[i]["missedIngredientCount"] > 0:
+                for ingr in recipes[i]["missedIngredients"]:
+                    missing_ingredients.append(ingr["name"].capitalize())
+            st.markdown(f"""
+                        You will need the following additional ingredients:
+
+                        {", ".join(missing_ingredients)}
+                        """)
+
+#@st.cache(allow_output_mutation=True)
+def show_img_with_href(img_url, target_url):
+    """ Display image with href in new browser tab"""
+    html_code = f'''
+        <a href="{target_url}" target="_blank" rel="noopener noreferrer">
+            <img src="{img_url}" style="width: 90%"/>
+        </a>'''
+    st.markdown(html_code, unsafe_allow_html=True)

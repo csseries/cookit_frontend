@@ -51,29 +51,14 @@ if uploaded_file:
         if diet == "I eat everything":
             diet = []
 
-        # this is just to avoid making too many requests during development
         if st.button('get recipes'):
             recipes = get_recipes(ingredients_selected_formatted, must_haves_formatted, exclusions, cuisines_formatted, diet)
 
             if len(recipes) > 0:
-                for i in range(min(len(recipes), 3)):
-                    col1, col2 = st.columns([3,5])
-                    with col1:
-                        st.image(recipes[i]['image'], use_column_width=True)
-                    with col2:
-                        st.write(recipes[i]['title'])
-                        st.write(f"Cooking time: {recipes[i]['readyInMinutes']} minutes")
-                        st.write("Cook this [recipe](%s) now" % recipes[i]["sourceUrl"])
-
-                        #Additional ingredients
-                        missing_ingredients = []
-                        if recipes[i]["missedIngredientCount"] > 0:
-                            for j in range(len(recipes[i]["missedIngredients"])):
-                                missing_ingredients.append(recipes[i]["missedIngredients"][j]["name"])
-                        st.write(f"You will need the following additional ingredients: {missing_ingredients}")
-
+                show_recipes(recipes, 3)
             else:
                 st.write("Sorry, we couldn't find any recipes")
+
     else:
         st.write("We couldn't find any ingredients on the picture, please upload another file")
 
