@@ -1,3 +1,12 @@
+# When executing a make command, the environment variable will trigger API calls
+# to the given URL instead of to the deployed backend on Google Cloud Run
+# If you want to communicate with the deployed backend, just use
+#
+# --> streamlit run app.py
+#
+export LOCAL_BACKEND_URL := http://localhost:8000/predict
+
+
 # ----------------------------------
 #          INSTALL & TEST
 # ----------------------------------
@@ -61,7 +70,7 @@ pypi:
 APP_NAME=cookit-frontend
 
 streamlit:
-	-@streamlit run app.py
+	@streamlit run app.py
 
 heroku_login:
 	-@heroku login
