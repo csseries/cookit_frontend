@@ -26,7 +26,8 @@ def get_recipes(query, ingredients, exclusions):
               "fillIngredients": True,
               "limitLicense": True,
               "ignorePantry": True,
-              "ranking": 2}
+              #Other option is max-used-ingredients
+              "sort": "min-missing-ingredients"}
 
     response = requests.get(BASE_URI, params)
     print(params)
