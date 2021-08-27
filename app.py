@@ -20,7 +20,7 @@ if uploaded_file:
     resized_file = resize_image(uploaded_file)
     ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
-    all_cuisines = ["African", "American", "British", "Cajun", "Caribbean",
+    all_cuisines = ["I like all cuisines", "African", "American", "British", "Cajun", "Caribbean",
                     "Chinese", "Eastern European", "European", "French",
                     "German", "Greek", "Indian", "Irish", "Italian", "Japanese",
                     "Jewish", "Korean", "Latin American", "Mediterranean",
@@ -35,15 +35,19 @@ if uploaded_file:
         must_haves = st.multiselect('Add ingredients that must be included', ingredients_selected)
         exclusions = st.text_input("What don't you like in your food? (comma-separated)")
         exclusions_parsed = [excl for excl in exclusions.split(',')]
-        cuisine = st.multiselect('What cuisine would you like to cook?', all_cuisines, default=all_cuisines)
-        # to be refined and link to recipe search
+
+        #For now option to only select one cuisine since API seems to only check for one
+        #Consider adding multiselect back later on
+        cuisine = st.selectbox('What cuisine would you like to cook?', all_cuisines)
+        if cuisine == "I like all cuisines":
+            cuisine = []
 
         # this is just to avoid making too many requests during development
         if st.button('get recipes'):
             recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed, cuisine)
 
             if len(recipes) > 0:
-                for i in range(min(len(recipes), 4)):
+                for i in range(min(len(recipes), 3)):
                     col1, col2 = st.columns([3,5])
                     with col1:
                         st.image(recipes[i]['image'], use_column_width=True)

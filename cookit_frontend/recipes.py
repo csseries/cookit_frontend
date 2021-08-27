@@ -35,7 +35,7 @@ def get_recipes(query, ingredients, exclusions, cuisine):
               #Other option is max-used-ingredients
               "sort": "min-missing-ingredients",
               #The direction in which to sort. Must be either 'asc' (ascending) or 'desc' (descending)
-              "sortDirection": "desc",
+              "sortDirection": "asc",
               #Number of expected results (between 1 and 100)
               "number": 15}
 
