@@ -61,7 +61,16 @@ if uploaded_file:
                         st.image(recipes[i]['image'], use_column_width=True)
                     with col2:
                         st.write(recipes[i]['title'])
+                        st.write(f"Cooking time: {recipes[i]['readyInMinutes']} minutes")
                         st.write("Cook this [recipe](%s) now" % recipes[i]["sourceUrl"])
+
+                        #Additional ingredients
+                        missing_ingredients = []
+                        if recipes[i]["missedIngredientCount"] > 0:
+                            for j in range(len(recipes[i]["missedIngredients"])):
+                                missing_ingredients.append(recipes[i]["missedIngredients"][j]["name"])
+
+                        st.write(f"You will need the following additional ingredients: {missing_ingredients}")
 
             elif len(recipes) == 0:
                 st.write("Sorry, we couldn't find any recipes")
