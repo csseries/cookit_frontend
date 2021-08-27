@@ -20,7 +20,12 @@ if uploaded_file:
     resized_file = resize_image(uploaded_file)
     ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
-    food_preferences = ['Italian', 'German', 'French', 'Vegetarian']
+    all_cuisines = ["African", "American", "British", "Cajun", "Caribbean",
+                    "Chinese", "Eastern European", "European", "French",
+                    "German", "Greek", "Indian", "Irish", "Italian", "Japanese",
+                    "Jewish", "Korean", "Latin American", "Mediterranean",
+                    "Mexican", "Middle Eastern", "Nordic","Southern",
+                    "Spanish", "Thai", "Vietnamese"]
 
     if len(ingredients) > 0:
         bbox_image = draw_boxes(resized_file, bboxes, ingredients, scores)
@@ -30,12 +35,12 @@ if uploaded_file:
         must_haves = st.multiselect('Add ingredients that must be included', ingredients_selected)
         exclusions = st.text_input("What don't you like in your food? (comma-separated)")
         exclusions_parsed = [excl for excl in exclusions.split(',')]
-        ingredients_selected = st.multiselect('What type of food do you prefer?', food_preferences, default=food_preferences) 
+        cuisine = st.multiselect('What cuisine would you like to cook?', all_cuisines, default=all_cuisines)
         # to be refined and link to recipe search
 
         # this is just to avoid making too many requests during development
         if st.button('get recipes'):
-            recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed)
+            recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed, cuisine)
 
             if len(recipes) > 0:
                 for i in range(min(len(recipes), 10)):
@@ -45,7 +50,7 @@ if uploaded_file:
                     with col2:
                         st.write(recipes[i]['title'])
                         st.write("Cook this [recipe](%s) now" % recipes[i]["sourceUrl"])
-                    
+
             elif len(recipes) == 0:
                 st.write("Sorry, we couldn't find any recipes")
     else:
