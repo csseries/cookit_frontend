@@ -25,9 +25,8 @@ if uploaded_file:
         must_haves = st.multiselect('Add ingredients that must be included', ingredients_selected)
         exclusions = st.text_input("What don't you like in your food? (comma-separated)")
         exclusions_parsed = [excl for excl in exclusions.split(',')]
-        ingredients_selected = st.multiselect('What type of food do you prefer?', food_preferences, default=food_preferences) # to be refined and link to recipe search
-
-        #Add cuisine preferences with checkboxes
+        ingredients_selected = st.multiselect('What type of food do you prefer?', food_preferences, default=food_preferences) 
+        # to be refined and link to recipe search
 
         # this is just to avoid making too many requests during development
         if st.button('get recipes'):
