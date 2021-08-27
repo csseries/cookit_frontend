@@ -21,15 +21,23 @@ def save_uploaded_file(filename, bytes_image):
 
 
 def resize_image(image_buffer, max_width=512, max_height=512):
+    """ Resizes an PIL.Image type to a given max widht or height
+        Returns the resized PIL.Image object
+    """
     pil_image = Image.open(image_buffer)
     if pil_image.width > max_width or pil_image.height > max_height:
-         pil_image.thumbnail((max_width, max_height), Image.ANTIALIAS)
+        # Using the thumbnal mehtod makes sure we keep the original aspect ratio
+        pil_image.thumbnail((max_width, max_height), Image.ANTIALIAS)
     return pil_image
 
 
 def pil_to_buffer(pil_image):
+    """ Takes image as returned by PIL.Image.open() and writes bytes to a buffer
+        object since we cannot use the PIL image directly for our POST request but
+        rather only a buffer or 'file-like' object.
+    """
     buffer = io.BytesIO()
-    pil_image.save(buffer, "JPEG")
+    pil_image.save(buffer, pil_image.format)
     buffer.seek(0)
     return buffer
 
