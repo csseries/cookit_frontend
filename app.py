@@ -27,6 +27,9 @@ if uploaded_file:
                     "Mexican", "Middle Eastern", "Nordic","Southern",
                     "Spanish", "Thai", "Vietnamese"]
 
+    dietary_resitrictions = ["I eat everything", "Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian",
+                             "Vegan", "Pescetarian", "Paleo"]
+
     if len(ingredients) > 0:
         bbox_image = draw_boxes(resized_file, bboxes, ingredients, scores)
         st.image(bbox_image)
@@ -42,9 +45,14 @@ if uploaded_file:
         if cuisine == "I like all cuisines":
             cuisine = []
 
+        #Specify a specific diet
+        diet = st.selectbox("Do you have any dietary restrictions?", dietary_resitrictions)
+        if diet == "I eat everything":
+            diet = []
+
         # this is just to avoid making too many requests during development
         if st.button('get recipes'):
-            recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed, cuisine)
+            recipes = get_recipes(ingredients_selected, must_haves, exclusions_parsed, cuisine, diet)
 
             if len(recipes) > 0:
                 for i in range(min(len(recipes), 3)):
