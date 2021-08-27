@@ -18,16 +18,24 @@ BASE_URI = 'https://api.spoonacular.com/recipes/complexSearch'
 
 def get_recipes(query, ingredients, exclusions):
     params = {'apiKey': api_keys[0],
+              #The (natural language) recipe search query
               "query": query,
+              #The cuisine(s) of the recipes. One or more, comma separated (will be interpreted as 'OR')
+              #ToDo
+              #A comma-separated list of ingredients that should/must be used in the recipes
               "includeIngredients": ingredients,
+              #A comma-separated list of ingredients or ingredient types that the recipes must not contain
               "excludeIngredients": exclusions,
+              #Only recipes with instructions
               "instructionsRequired": True,
               "addRecipeInformation": True,
+              #Add information about the ingredients and whether they are used or missing in relation to the query
               "fillIngredients": True,
-              "limitLicense": True,
               "ignorePantry": True,
               #Other option is max-used-ingredients
-              "sort": "min-missing-ingredients"}
+              "sort": "min-missing-ingredients",
+              #The direction in which to sort. Must be either 'asc' (ascending) or 'desc' (descending)
+              "sortDirection": "desc"}
 
     response = requests.get(BASE_URI, params)
     print(params)
