@@ -12,5 +12,6 @@ def get_predictions(image):
         res = response.json()
         print('Received predictions: ', res)
         return (res['prediction'], res['scores'], res['bboxes'])
+
     print(f'Something went wong. Received code {response.status_code}')
-    return []
+    return ([], [], [])
