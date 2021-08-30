@@ -9,12 +9,15 @@ from cookit_frontend.page_elements import *
 
 page_decorators()
 
+local_css("style.css")
+
 page_title()
 
 page_slogan()
 
 #Option to upload jpg/ png image that will be used from the model
 uploaded_file = page_pic_uploader()
+
 
 if uploaded_file:
     resized_file = resize_image(uploaded_file)
@@ -62,4 +65,4 @@ if uploaded_file:
     else:
         st.write("We couldn't find any ingredients on the picture, please upload another file")
 
-background()
+#background()
