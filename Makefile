@@ -20,7 +20,7 @@ black:
 	@black scripts/* cookit_frontend/*.py
 
 test:
-	@coverage run -m pytest -s tests/*.py
+	@coverage run -m pytest -s -v tests/*.py
 	@coverage report -m app.py cookit_frontend/*.py
 
 ftest:
