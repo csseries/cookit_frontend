@@ -74,8 +74,8 @@ if uploaded_file:
             if len(recipes) > 0:
                 show_recipes(recipes, 3)
             else:
-                st.write("Sorry, we couldn't find any recipes")
+                st.write("<span class='body'>Sorry, we couldn't find any recipes</span>", unsafe_allow_html=True)
     else:
-        st.write("We couldn't find any ingredients on the picture, please upload another file")
+        st.write("<span class='body'>We can't identify the ingredients in the picture, please upload another one</span>", unsafe_allow_html=True)
 
 background()

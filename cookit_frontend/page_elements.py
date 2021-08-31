@@ -104,7 +104,7 @@ def show_recipes(recipes, display_count):
             show_img_with_href(recipes[0]['image'], recipes[0]["sourceUrl"])
             st.markdown(f"### {recipes[0]['title']}")
             st.write(f"Time: {recipes[0]['readyInMinutes']} minutes")
-            st.write("[Cookit now!] (%s)" % recipes[0]["sourceUrl"])
+            st.write("[Cookit !] (%s)" % recipes[0]["sourceUrl"])
 
             #Additional ingredients
             missing_ingredients = []
@@ -123,7 +123,7 @@ def show_recipes(recipes, display_count):
             show_img_with_href(recipes[0]['image'], recipes[0]["sourceUrl"])
             st.markdown(f"### {recipes[0]['title']}")
             st.write(f"Time: {recipes[0]['readyInMinutes']} minutes")
-            st.write("[Cookit now!] (%s)" % recipes[0]["sourceUrl"])
+            st.write("[Cookit !] (%s)" % recipes[0]["sourceUrl"])
 
             #Additional ingredients
             missing_ingredients = []
@@ -140,7 +140,7 @@ def show_recipes(recipes, display_count):
             show_img_with_href(recipes[1]['image'], recipes[1]["sourceUrl"])
             st.markdown(f"### {recipes[1]['title']}")
             st.write(f"Time: {recipes[1]['readyInMinutes']} minutes")
-            st.write("[Cookit now!] (%s)" % recipes[1]["sourceUrl"])
+            st.write("[Cookit !] (%s)" % recipes[1]["sourceUrl"])
 
             #Additional ingredients
             missing_ingredients = []
@@ -159,7 +159,7 @@ def show_recipes(recipes, display_count):
             show_img_with_href(recipes[0]['image'], recipes[0]["sourceUrl"])
             st.markdown(f"### {recipes[0]['title']}")
             st.write(f"Time: {recipes[0]['readyInMinutes']} minutes")
-            st.write("[Cookit now!] (%s)" % recipes[0]["sourceUrl"])
+            st.write("[Cookit !] (%s)" % recipes[0]["sourceUrl"])
 
             #Additional ingredients
             missing_ingredients = []
@@ -176,7 +176,7 @@ def show_recipes(recipes, display_count):
             show_img_with_href(recipes[1]['image'], recipes[1]["sourceUrl"])
             st.markdown(f"### {recipes[1]['title']}")
             st.write(f"Time: {recipes[1]['readyInMinutes']} minutes")
-            st.write("[Cookit now!] (%s)" % recipes[1]["sourceUrl"])
+            st.write("[Cookit !] (%s)" % recipes[1]["sourceUrl"])
 
             #Additional ingredients
             missing_ingredients = []
@@ -195,7 +195,7 @@ def show_recipes(recipes, display_count):
 
                 st.markdown(f"### {recipes[2]['title']}")
                 st.write(f"Time: {recipes[2]['readyInMinutes']} minutes")
-                st.write("[Cookit now!] (%s)" % recipes[2]["sourceUrl"])
+                st.write("[Cookit !] (%s)" % recipes[2]["sourceUrl"])
 
                 #Additional ingredients
                 missing_ingredients = []
