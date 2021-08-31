@@ -23,7 +23,7 @@ if uploaded_file:
     resized_file = resize_image(uploaded_file)
     ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
-    all_cuisines = ["African", "American", "British", "Cajun", "Caribbean",
+    all_cuisines = ["I don't have any preferences", "African", "American", "British", "Cajun", "Caribbean",
                     "Chinese", "Eastern European", "European", "French",
                     "German", "Greek", "Indian", "Irish", "Italian", "Japanese",
                     "Jewish", "Korean", "Latin American", "Mediterranean",
@@ -34,13 +34,14 @@ if uploaded_file:
                              "Vegan", "Pescetarian", "Paleo"]
 
     # All veg and fruit classes plus cheese and egg from Open Images Dataset V6
-    food_classes_oiv6 = ['Apple', 'Artichoke', 'Banana', 'Beer', 'Bell pepper',\
-                   'Bread', 'Broccoli', 'Cabbage', 'Cantaloupe', 'Carrot',\
-                   'Cheese', 'Coconut', 'Cucumber', 'Egg',\
-                   'Garden Asparagus', 'Grape', 'Grapefruit', 'Lemon',\
+    food_classes_oiv6 = ['Apple', 'Artichoke', 'Aspargus', 'Banana', 'Beer', \
+                    'Bell pepper', 'Bread', 'Broccoli', 'Cabbage', 'Cantaloupe',\
+                    'Carrot', 'Cheese', 'Coconut', 'Cucumber', 'Celery', 'Egg',\
+                   'Green Asparagus', 'Grape', 'Grapefruit', 'Lemon',\
                    'Mango', 'Mushroom', 'Orange', 'Pear', 'Pineapple',\
                    'Pomegranate', 'Potato', 'Pumpkin', 'Radish', 'Squash',\
-                   'Strawberry', 'Tomato', 'Watermelon', 'Zucchini']
+                   'Strawberry', 'Tomato', 'Watermelon', 'Zucchini',
+                   'Rice', 'Pasta', 'Oats', 'Peanut Butter', 'Cream', 'Joghurt']
 
     if len(ingredients) > 0:
         col1, col2 = st.columns([2, 1])
@@ -61,7 +62,11 @@ if uploaded_file:
 
             #A comma-separated list of cuisines
             cuisine = st.multiselect('Which cuisine do you feel like today?', all_cuisines)
+            if cuisine == "I don't have any preferences":
+                cuisine = []
+
             cuisines_formatted = ", ".join(cuisine)
+
 
             #Specify a specific diet
             diet = st.selectbox("Do you have any dietary restrictions?", dietary_resitrictions)
