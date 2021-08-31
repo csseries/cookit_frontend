@@ -21,7 +21,7 @@ def save_uploaded_file(filename, bytes_image):
 
 
 def resize_image(image_buffer, max_width=512, max_height=512):
-    """ Resizes an PIL.Image type to a given max widht or height
+    """ Resizes an PIL.Image type to a given max width or height
         Returns the resized PIL.Image object
     """
     pil_image = Image.open(image_buffer)
