@@ -9,7 +9,6 @@ try:
 except:
     api_keys = []
     print('WARNING: No spoonacular API keys found in environment!')
-    print("ENV variables found: ", os.environ)
 
 
 BASE_URI = 'https://api.spoonacular.com/recipes/complexSearch'
