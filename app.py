@@ -20,7 +20,7 @@ if uploaded_file:
     ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
     if len(ingredients) > 0:
-        col1, col2 = st.columns([2, 1])
+        col1, col2 = st.columns([1, 1])
         with col1:
             st.write("")
             show_bbox_image(resized_file, bboxes, ingredients, scores)

@@ -20,7 +20,7 @@ def save_uploaded_file(filename, bytes_image):
     return file_path
 
 
-def resize_image(image_buffer, max_width=512, max_height=512):
+def resize_image(image_buffer, max_width=800, max_height=800):
     """ Resizes an PIL.Image type to a given max width or height
         Returns the resized PIL.Image object
     """
