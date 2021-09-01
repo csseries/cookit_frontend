@@ -38,8 +38,9 @@ if uploaded_file:
             exclusions_formatted = ", ".join(exclusions)
 
             #A comma-separated list of cuisines
-            cuisine = st.multiselect('Which cuisine do you feel like today?', CUISINES)
-            if cuisine == "I don't have any preferences":
+            cuisine = st.multiselect('Which cuisine do you feel like today?',
+                                     CUISINES, default=CUISINES[0])
+            if cuisine == CUISINES[0]:
                 cuisine = []
 
             cuisines_formatted = ", ".join(cuisine)

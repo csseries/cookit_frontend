@@ -24,7 +24,7 @@ INGREDIENTS = [
     'Truit', 'Turnips', 'Veal', 'Walnuts', 'Watermelon', 'Yams', 'Zucchini']
 
 CUISINES = [
-    "I don't have any preferences", "African", "American", "British",
+    "I have no preferences", "African", "American", "British",
     "Cajun", "Caribbean", "Chinese", "Eastern European", "European",
     "French", "German", "Greek", "Indian", "Irish", "Italian", "Japanese",
     "Jewish", "Korean", "Latin American", "Mediterranean", "Mexican",
