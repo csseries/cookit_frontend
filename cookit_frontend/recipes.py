@@ -13,12 +13,15 @@ except:
 
 BASE_URI = 'https://api.spoonacular.com/recipes/complexSearch'
 
+KEY_IDX = 0 # initial value for api keys
 
 
 
 def get_recipes(ingredients, exclusions, cuisine, diet):
-    params = {'apiKey': api_keys[0],
+    global KEY_IDX
     offset = random.randint(0, 20)
+    # See https://spoonacular.com/food-api/docs#Search-Recipes-Complex
+    params = {'apiKey': api_keys[KEY_IDX],
               #The (natural language) recipe search query
               #"query": query,
               #A comma-separated list of ingredients that should/must be used in the recipes
