@@ -70,5 +70,3 @@ if uploaded_file:
                 st.warning("Sorry, we couldn't find any recipes")
     else:
         st.warning("We can't identify the ingredients in the picture, please upload another one")
-
-background()

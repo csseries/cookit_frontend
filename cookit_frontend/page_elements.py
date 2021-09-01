@@ -18,6 +18,8 @@ def page_decorators():
 
 def page_header():
     img = Image.open("frontend_img/logo_crop.png")
+    background()
+
     #st.image(img)
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
@@ -81,6 +83,7 @@ def background_image_style(path):
 
 def write_text(text):
     return st.write(text, unsafe_allow_html=True)
+
 
 def background():
     image_path = 'frontend_img/background.png'
