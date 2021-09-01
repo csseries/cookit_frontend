@@ -3,7 +3,7 @@ from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
 from cookit_frontend.image import resize_image, pil_to_buffer
 from cookit_frontend.page_elements import *
-
+from cookit_frontend.utils import INGREDIENTS, DIETARY_RESTRICTIONS, CUISINES
 
 page_decorators()
 local_css("style.css")
@@ -19,26 +19,6 @@ if uploaded_file:
     resized_file = resize_image(uploaded_file)
     ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
-    all_cuisines = ["I don't have any preferences", "African", "American", "British", "Cajun", "Caribbean",
-                    "Chinese", "Eastern European", "European", "French",
-                    "German", "Greek", "Indian", "Irish", "Italian", "Japanese",
-                    "Jewish", "Korean", "Latin American", "Mediterranean",
-                    "Mexican", "Middle Eastern", "Nordic","Southern",
-                    "Spanish", "Thai", "Vietnamese"]
-
-    dietary_resitrictions = ["I eat everything", "Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian",
-                             "Vegan", "Pescetarian", "Paleo"]
-
-    # All veg and fruit classes plus cheese and egg from Open Images Dataset V6
-    food_classes_oiv6 = ['Apple', 'Artichoke', 'Aspargus', 'Banana', 'Beer', \
-                    'Bell pepper', 'Bread', 'Broccoli', 'Cabbage', 'Cantaloupe',\
-                    'Carrot', 'Cheese', 'Coconut', 'Cucumber', 'Celery', 'Egg',\
-                   'Green Asparagus', 'Grape', 'Grapefruit', 'Lemon',\
-                   'Mango', 'Mushroom', 'Orange', 'Pear', 'Pineapple',\
-                   'Pomegranate', 'Potato', 'Pumpkin', 'Radish', 'Squash',\
-                   'Strawberry', 'Tomato', 'Watermelon', 'Zucchini',
-                   'Rice', 'Pasta', 'Oats', 'Peanut Butter', 'Cream', 'Joghurt']
-
     if len(ingredients) > 0:
         col1, col2 = st.columns([2, 1])
         with col1:
@@ -50,14 +30,14 @@ if uploaded_file:
             ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)", ingredients, default=ingredients)
             ingredients_selected_formatted = ", ".join(ingredients_selected)
 
-            must_haves = st.multiselect('You can add more ingredients', food_classes_oiv6)
+            must_haves = st.multiselect('You can add more ingredients', INGREDIENTS)
             must_haves_formatted = ", ".join(must_haves)
 
-            exclusions = st.multiselect("Anything you really don't like?", food_classes_oiv6)
+            exclusions = st.multiselect("Anything you really don't like?", INGREDIENTS)
             exclusions_formatted = ", ".join(exclusions)
 
             #A comma-separated list of cuisines
-            cuisine = st.multiselect('Which cuisine do you feel like today?', all_cuisines)
+            cuisine = st.multiselect('Which cuisine do you feel like today?', CUISINES)
             if cuisine == "I don't have any preferences":
                 cuisine = []
 
@@ -65,7 +45,7 @@ if uploaded_file:
 
 
             #Specify a specific diet
-            diet = st.selectbox("Do you have any dietary restrictions?", dietary_resitrictions)
+            diet = st.selectbox("Do you have any dietary restrictions?", DIETARY_RESTRICTIONS)
             if diet == "I eat everything":
                 diet = []
 
