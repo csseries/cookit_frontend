@@ -1,23 +1,19 @@
 import streamlit as st
-import os
-import base64
-from PIL import Image
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
-from cookit_frontend.image import resize_image, draw_boxes, pil_to_buffer
+from cookit_frontend.image import resize_image, pil_to_buffer
 from cookit_frontend.page_elements import *
-from load_css import local_css
+
 
 page_decorators()
-
 local_css("style.css")
 
-page_title()
+page_header()
 
-#page_slogan()
+uploaded_file = page_pic_uploader()
 
 #Option to upload jpg/ png image that will be used from the model
-uploaded_file = page_pic_uploader()
+
 
 if uploaded_file:
     resized_file = resize_image(uploaded_file)
