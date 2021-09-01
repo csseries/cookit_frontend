@@ -51,7 +51,7 @@ if uploaded_file:
             #A comma-separated list of cuisines
             cuisine = st.multiselect('Which cuisine do you feel like today?',
                                      CUISINES, default=CUISINES[0])
-            if cuisine == CUISINES[0]:
+            if len(cuisine) == 1 and cuisine[0] == CUISINES[0]:
                 cuisine = []
 
             cuisines_formatted = ", ".join(cuisine)
