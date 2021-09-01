@@ -85,126 +85,27 @@ def background():
     return st.write(background_image_style(image_path), unsafe_allow_html=True)
 
 
-def show_recipes(recipes, display_count):
-    print(f"Display {display_count} out of {len(recipes)} recipes")
-
-    #TODO refactor. currently
-    # Adjust column layout to number of recipes. Ideally there are three
-    # columns of recipes. If there is only one, put it in the middle, if two,
-    # in columns 1 and 2
-    col1, col2, col3 = st.columns([2, 2, 2])
-    if len(recipes) == 1 or display_count == 1:
-        with col1:
-            st.write("")
-        with col2:
-            st.write(" ") # makes sure we are vertically aligned with col2
-            show_img_with_href(recipes[0]['image'], recipes[0]["sourceUrl"])
-            st.markdown(f"### {recipes[0]['title']}")
-            st.write(f"Time: {recipes[0]['readyInMinutes']} minutes")
-            st.write("[Cookit !] (%s)" % recipes[0]["sourceUrl"])
+def show_recipes(recipes, display_count=3):
+    recipes_to_show = min(len(recipes), display_count)
+    display_cols = [1 for count in range(recipes_to_show)]
+    cols = st.columns(display_cols)
+    for i in range(recipes_to_show):
+        with cols[i]:
+            show_img_with_href(recipes[i]['image'], recipes[i]["sourceUrl"])
+            st.markdown(f"### {recipes[i]['title']}")
+            st.write(f"Time: {recipes[i]['readyInMinutes']} minutes")
+            st.write("[Cookit !] (%s)" % recipes[i]["sourceUrl"])
 
             #Additional ingredients
             missing_ingredients = []
-            if recipes[0]["missedIngredientCount"] > 0:
-                for ingr in recipes[0]["missedIngredients"]:
+            if recipes[i]["missedIngredientCount"] > 0:
+                for ingr in recipes[i]["missedIngredients"]:
                     missing_ingredients.append(ingr["name"].capitalize())
             st.markdown(f"""
                         You'll need these additional ingredients:
 
                         {", ".join(missing_ingredients)}
                         """)
-
-    elif len(recipes) == 2 or display_count == 2:
-        with col1:
-            st.write(" ") # makes sure we are vertically aligned with col2
-            show_img_with_href(recipes[0]['image'], recipes[0]["sourceUrl"])
-            st.markdown(f"### {recipes[0]['title']}")
-            st.write(f"Time: {recipes[0]['readyInMinutes']} minutes")
-            st.write("[Cookit !] (%s)" % recipes[0]["sourceUrl"])
-
-            #Additional ingredients
-            missing_ingredients = []
-            if recipes[0]["missedIngredientCount"] > 0:
-                for ingr in recipes[0]["missedIngredients"]:
-                    missing_ingredients.append(ingr["name"].capitalize())
-            st.markdown(f"""
-                        You'll need these additional ingredients:
-
-                        {", ".join(missing_ingredients)}
-                        """)
-        with col2:
-            st.write(" ") # makes sure we are vertically aligned with col2
-            show_img_with_href(recipes[1]['image'], recipes[1]["sourceUrl"])
-            st.markdown(f"### {recipes[1]['title']}")
-            st.write(f"Time: {recipes[1]['readyInMinutes']} minutes")
-            st.write("[Cookit !] (%s)" % recipes[1]["sourceUrl"])
-
-            #Additional ingredients
-            missing_ingredients = []
-            if recipes[1]["missedIngredientCount"] > 0:
-                for ingr in recipes[1]["missedIngredients"]:
-                    missing_ingredients.append(ingr["name"].capitalize())
-            st.markdown(f"""
-                        You'll need these additional ingredients:
-
-                        {", ".join(missing_ingredients)}
-                        """)
-
-    else:
-        with col1:
-            st.write(" ") # makes sure we are vertically aligned with col2
-            show_img_with_href(recipes[0]['image'], recipes[0]["sourceUrl"])
-            st.markdown(f"### {recipes[0]['title']}")
-            st.write(f"Time: {recipes[0]['readyInMinutes']} minutes")
-            st.write("[Cookit !] (%s)" % recipes[0]["sourceUrl"])
-
-            #Additional ingredients
-            missing_ingredients = []
-            if recipes[0]["missedIngredientCount"] > 0:
-                for ingr in recipes[0]["missedIngredients"]:
-                    missing_ingredients.append(ingr["name"].capitalize())
-            st.markdown(f"""
-                        You'll need these additional ingredients:
-
-                        {", ".join(missing_ingredients)}
-                        """)
-        with col2:
-            st.write(" ") # makes sure we are vertically aligned with col2
-            show_img_with_href(recipes[1]['image'], recipes[1]["sourceUrl"])
-            st.markdown(f"### {recipes[1]['title']}")
-            st.write(f"Time: {recipes[1]['readyInMinutes']} minutes")
-            st.write("[Cookit !] (%s)" % recipes[1]["sourceUrl"])
-
-            #Additional ingredients
-            missing_ingredients = []
-            if recipes[1]["missedIngredientCount"] > 0:
-                for ingr in recipes[1]["missedIngredients"]:
-                    missing_ingredients.append(ingr["name"].capitalize())
-            st.markdown(f"""
-                        You'll need these additional ingredients:
-
-                        {", ".join(missing_ingredients)}
-                        """)
-
-            with col3:
-                st.write(" ") # makes sure we are vertically aligned with col2
-                show_img_with_href(recipes[2]['image'], recipes[2]["sourceUrl"])
-
-                st.markdown(f"### {recipes[2]['title']}")
-                st.write(f"Time: {recipes[2]['readyInMinutes']} minutes")
-                st.write("[Cookit !] (%s)" % recipes[2]["sourceUrl"])
-
-                #Additional ingredients
-                missing_ingredients = []
-                if recipes[2]["missedIngredientCount"] > 0:
-                    for ingr in recipes[2]["missedIngredients"]:
-                        missing_ingredients.append(ingr["name"].capitalize())
-                st.markdown(f"""
-                            You'll need these additional ingredients:
-
-                            {", ".join(missing_ingredients)}
-                            """)
-
 
 #@st.cache(allow_output_mutation=True)
 def show_img_with_href(img_url, target_url):
