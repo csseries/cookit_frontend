@@ -62,11 +62,6 @@ def load_image(path):
     return encoded
 
 
-def image_tag(path):
-    encoded = load_image(path)
-    tag = f'<img src="data:image/png;base64,{encoded}">'
-    return tag
-
 
 def background_image_style(path):
     encoded = load_image(path)
