@@ -36,8 +36,10 @@ if uploaded_file:
             st.write("")
 
         with col2:
+            # do not add nonsense ingredients to the list (like "Fruit")
+            filtered_ingredients = [ingr for ingr in ingredients if ingr in INGREDIENTS]
             ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)",
-                                                  ingredients, default=ingredients)
+                                                  filtered_ingredients, default=filtered_ingredients)
             ingredients_selected_formatted = ", ".join(ingredients_selected)
 
             must_haves = st.multiselect('You can add more ingredients', INGREDIENTS)
