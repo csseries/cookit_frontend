@@ -16,46 +16,38 @@ def page_decorators():
     st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png")
 
 
-def page_title():
+def page_header():
     img = Image.open("frontend_img/logo_crop.png")
-    # create a padding on top
-    # row_top_1, row_top_2 = st.columns([1, 1])
-    # with row_top_1:
-    #     #st.write("")
-    #     st.image(img)
-    # with row_top_2:
-    #     st.write("")
-
-    #
-    col1, col2 = st.columns([2, 2])
+    #st.image(img)
+    col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
-        st.image(img)
         st.write("")
     with col2:
-        st.write("")
-        st.write("")
-        st.write("")
-        st.write("")
+        st.image(img)
         page_slogan()
-    #return col1, col2
+    with col3:
+        st.write("")
 
 
 def page_slogan():
-    write_text("<span class='body'>Use what's in your fridge (or pantry): \
-    <br> \
-    <br>1️⃣ Take a picture <br>2️⃣ Upload it <br>3️⃣ Receive recipe suggestions</span>")
+    write_text("<span class='slogan'> \
+                    <p>Use what's in your fridge (or pantry)</p> \
+                    <br> \
+                    <br>1️⃣ Take a picture \
+                    <br>2️⃣ Upload it \
+                    <br>3️⃣ Receive recipe suggestions \
+                </span>")
 
 
 def page_pic_uploader():
     col1, col2, col3 = st.columns([1, 2, 1])
-    # with col1:
-    #     st.file_uploader("Upload picture(s)", type=["png", "jpg"], accept_multiple_files=False)
-    # with col2:
-    #     st.write("")
-    #return col1, col2
-    write_text("<span class='body'>Upload picture(s)</span>")
-    return st.file_uploader("", type=["png", "jpg", "jpeg"], accept_multiple_files=False)
-
+    with col1:
+        st.write("")
+    with col2:
+        uploaded_file = st.file_uploader("Upload picture(s)", type=["png", "jpg", "jpeg"], accept_multiple_files=False)
+    with col3:
+        st.write("")
+    return uploaded_file
 
 def show_bbox_image(resized_file, bboxes, ingredients, scores):
     bbox_image = draw_boxes(resized_file, bboxes, ingredients, scores)
