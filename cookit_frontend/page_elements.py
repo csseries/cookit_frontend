@@ -47,7 +47,7 @@ def page_pic_uploader():
     #     st.write("")
     #return col1, col2
     write_text("<span class='body'>Upload picture(s)</span>")
-    return st.file_uploader("", type=["png", "jpg"], accept_multiple_files=False)
+    return st.file_uploader("", type=["png", "jpg", "jpeg"], accept_multiple_files=False)
 
 
 def show_bbox_image(resized_file, bboxes, ingredients, scores):
