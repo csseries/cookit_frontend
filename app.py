@@ -17,7 +17,8 @@ uploaded_file = page_pic_uploader()
 
 if uploaded_file:
     resized_file = resize_image(uploaded_file)
-    ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
+    with st.spinner("Making prediction...."):
+        ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
     if len(ingredients) > 0:
         col1, col2 = st.columns([1, 1])
@@ -58,10 +59,8 @@ if uploaded_file:
             if len(recipes) > 0:
                 show_recipes(recipes, 3)
             else:
-                st.write("<span class='body'>Sorry, we couldn't find any recipes</span>",
-                         unsafe_allow_html=True)
+                st.warning("Sorry, we couldn't find any recipes")
     else:
-        st.write("<span class='body'>We can't identify the ingredients in the picture, please upload another one</span>",
-                 unsafe_allow_html=True)
+        st.warning("We can't identify the ingredients in the picture, please upload another one")
 
 background()
