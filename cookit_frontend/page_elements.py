@@ -5,6 +5,13 @@ from PIL import Image
 from cookit_frontend.image import draw_boxes
 
 
+
+def local_css(file_name):
+    '''loads the local 'style.css' file into the app'''
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+
 def page_decorators():
     return st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png", layout="wide")
 
