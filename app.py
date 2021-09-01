@@ -17,8 +17,16 @@ uploaded_file = page_pic_uploader()
 
 if uploaded_file:
     resized_file = resize_image(uploaded_file)
-    with st.spinner("Making prediction...."):
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        st.write("")
+    with col2:
+        gif_runner = st.image("frontend_img/giphy.gif")
         ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
+        gif_runner.empty()
+    with col3:
+        st.write("")
 
     if len(ingredients) > 0:
         col1, col2 = st.columns([1, 1])
