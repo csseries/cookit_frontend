@@ -1,6 +1,6 @@
 import os
 import requests
-
+import random
 
 # load env variable from Heroku or from local environment
 try:
@@ -18,6 +18,7 @@ BASE_URI = 'https://api.spoonacular.com/recipes/complexSearch'
 
 def get_recipes(ingredients, exclusions, cuisine, diet):
     params = {'apiKey': api_keys[0],
+    offset = random.randint(0, 20)
               #The (natural language) recipe search query
               #"query": query,
               #A comma-separated list of ingredients that should/must be used in the recipes
@@ -39,13 +40,19 @@ def get_recipes(ingredients, exclusions, cuisine, diet):
               #The direction in which to sort. Must be either 'asc' (ascending) or 'desc' (descending)
               "sortDirection": "asc",
               #Number of expected results (between 1 and 100)
-              "number": 15}
+              "number": 15,
+              # The number of results to skip (between 0 and 900).
+              "offset": offset}
 
     response = requests.get(BASE_URI, params)
     print(params)
 
-    # TODO: if response failed due to reached quota, switch to another api key
     if response.status_code == 200:
         return response.json()['results']
 
+    # if response failed due to reached quota, switch to another api key
+    if response.status_code == 402:
+        print("Daily quota is reachend - switch to next API key in list")
+        KEY_IDX = (KEY_IDX + 1) % len(api_keys)
+        get_recipes(ingredients, exclusions, cuisine, diet)
     return []
