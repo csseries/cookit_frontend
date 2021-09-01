@@ -81,7 +81,12 @@ def draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, color,font,
 def draw_boxes(image_pil, boxes, class_names, scores, max_boxes=10, min_score=0.1):
     """Overlay labeled boxes on an image with formatted scores and label names."""
     colors = list(ImageColor.colormap.values())
-    font = ImageFont.load_default()
+
+    try:
+        font = ImageFont.truetype('Arial', 18)
+    except:
+        font = ImageFont.load_default()
+
     boxes = np.array(boxes)
 
     for i in range(min(len(class_names), max_boxes)):
