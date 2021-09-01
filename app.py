@@ -53,7 +53,7 @@ if uploaded_file:
                 diet = []
 
         if st.button('get recipes'):
-            recipes = get_recipes(ingredients_selected_formatted, must_haves_formatted,
+            recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
                                   exclusions, cuisines_formatted, diet)
 
             if len(recipes) > 0:
