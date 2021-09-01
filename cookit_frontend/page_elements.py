@@ -13,7 +13,7 @@ def local_css(file_name):
 
 
 def page_decorators():
-    return st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png", layout="wide")
+    st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png")
 
 
 def page_title():
