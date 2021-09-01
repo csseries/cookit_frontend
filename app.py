@@ -27,7 +27,8 @@ if uploaded_file:
             st.write("")
 
         with col2:
-            ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)", ingredients, default=ingredients)
+            ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)",
+                                                  ingredients, default=ingredients)
             ingredients_selected_formatted = ", ".join(ingredients_selected)
 
             must_haves = st.multiselect('You can add more ingredients', INGREDIENTS)
@@ -50,13 +51,16 @@ if uploaded_file:
                 diet = []
 
         if st.button('get recipes'):
-            recipes = get_recipes(ingredients_selected_formatted, must_haves_formatted, exclusions, cuisines_formatted, diet)
+            recipes = get_recipes(ingredients_selected_formatted, must_haves_formatted,
+                                  exclusions, cuisines_formatted, diet)
 
             if len(recipes) > 0:
                 show_recipes(recipes, 3)
             else:
-                st.write("<span class='body'>Sorry, we couldn't find any recipes</span>", unsafe_allow_html=True)
+                st.write("<span class='body'>Sorry, we couldn't find any recipes</span>",
+                         unsafe_allow_html=True)
     else:
-        st.write("<span class='body'>We can't identify the ingredients in the picture, please upload another one</span>", unsafe_allow_html=True)
+        st.write("<span class='body'>We can't identify the ingredients in the picture, please upload another one</span>",
+                 unsafe_allow_html=True)
 
 background()
