@@ -47,12 +47,6 @@ def query_recipes(params_dict):
 
     queried_results_list = []
 
-    # lowercase the input from the frontend
-    for key in params_dict:
-        if type(params_dict[key]) == type([]):
-            for index, item in enumerate(params_dict[key]):
-                params_dict[key][index] = item.lower()
-
     # query the database recipe df based on conditions
     for index, row in recipes.iterrows():
 
