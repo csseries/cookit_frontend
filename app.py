@@ -4,7 +4,7 @@ from cookit_frontend.communcation import get_predictions
 from cookit_frontend.image import resize_image, pil_to_buffer
 from cookit_frontend.page_elements import *
 from cookit_frontend.utils import INGREDIENTS, LEVELS
-from cookit_frontend.query import transform_for_frontend
+from cookit_frontend.query import find_recipes_in_db
 
 page_decorators()
 local_css("style.css")
@@ -49,29 +49,11 @@ if uploaded_file:
             #Specify level of recipe difficulty
             difficulty = st.selectbox("How difficult should your recipe be?", LEVELS)
 
-        for ele in must_haves:
-            ingredients_selected.append(ele)
-
-        params_dict = {
-            "includeIngredients": ingredients_selected,
-            "excludeIngredients": exclusions,
-            #"cuisine": "Mediterranean"
-            #"difficulty": "medium"
-        }
-        print(params_dict, "params")
-
-        params_test = {
-            "includeIngredients": ["Tomato","Zucchini"],
-            "excludeIngredients": [],
-            #"cuisine": "Mediterranean"
-            #"difficulty": "medium"
-        }
-
         if st.button('get recipes'):
             #recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
             #                      exclusions, cuisines_formatted, diet)
 
-            recipes = transform_for_frontend(params_test)
+            recipes = find_recipes_in_db(ingredients_selected + must_haves, exclusions, difficulty)
 
             if len(recipes) > 0:
                 show_recipes(recipes, 3)

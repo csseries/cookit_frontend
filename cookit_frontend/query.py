@@ -137,7 +137,12 @@ def missing_function(params_dict, index):
     return return_frontend_list
 
 
-def transform_for_frontend(params_dict):
+def find_recipes_in_db(ingredients, exclusions, difficulty):
+    params_dict = {
+        "includeIngredients": [i.lower() for i in ingredients],
+        "excludeIngredients": [i.lower() for i in exclusions],
+        "difficulty": difficulty.lower()
+    }
     # Return a list of dictionaries containing information regarding recipes
     queried_results_list = query_recipes(params_dict)
 
