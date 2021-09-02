@@ -46,17 +46,14 @@ def query_recipes(params_dict):
     global recipes
 
     queried_results_list = []
-
-    # query the database recipe df based on conditions
+    # TODO: There should be a faster way to get the results from the dataframe
     for index, row in recipes.iterrows():
-
         include_condition = all(x in recipes.ingredients_joined[index] for x in params_dict["includeIngredients"])
         exclude_condition = any(x in recipes.ingredients_joined[index] for x in params_dict["excludeIngredients"])
-        #difficulty_condition = recipes.difficulty[index] == params_dict["difficulty"]
+        difficulty_condition = recipes.difficulty[index] == params_dict["difficulty"]
 
-        if (include_condition) and not (exclude_condition):
+        if include_condition and not exclude_condition and difficulty_condition:
             queried_results_list.append(row)
-
 
     return queried_results_list
 
