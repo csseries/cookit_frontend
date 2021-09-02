@@ -40,10 +40,13 @@ if uploaded_file:
             filtered_ingredients = [ingr for ingr in ingredients if ingr in INGREDIENTS]
             ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)",
                                                   filtered_ingredients, default=filtered_ingredients)
-            ingredients_selected_formatted = ", ".join(ingredients_selected)
 
-            must_haves = st.multiselect('You can add more ingredients', INGREDIENTS)
-            must_haves_formatted = ", ".join(must_haves)
+            additional_ingredients = st.multiselect('You can add more ingredients', INGREDIENTS)
+
+            # Join recognized and additional ingredients together
+            for element in ingredients_selected:
+                additional_ingredients.append(element)
+            final_ingredients = ", ".join(additional_ingredients)
 
             exclusions = st.multiselect("Anything you really don't like?", INGREDIENTS)
             exclusions_formatted = ", ".join(exclusions)
@@ -63,8 +66,7 @@ if uploaded_file:
                 diet = []
 
         if st.button('get recipes'):
-            recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
-                                  exclusions, cuisines_formatted, diet)
+            recipes = get_recipes(final_ingredients, exclusions, cuisines_formatted, diet)
 
             if len(recipes) > 0:
                 show_recipes(recipes, 3)
