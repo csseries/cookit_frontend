@@ -47,7 +47,8 @@ def get_recipes(ingredients, exclusions, cuisine, diet):
               # The number of results to skip (between 0 and 900).
               # This is a bit risky in cases where less recipes were found than the offset value;
               # --> the API is then returning no recipes.
-              "offset": offset}
+              #"offset": offset
+            }
 
     response = requests.get(BASE_URI, params)
     print(params)
