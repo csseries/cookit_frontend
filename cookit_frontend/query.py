@@ -88,24 +88,26 @@ def query_recipes(params_dict):
             for index, item in enumerate(params_dict[key]):
                 params_dict[key][index] = item.lower()
 
+    params_dict["difficulty"] = params_dict["difficulty"].lower()
+
     # query the database recipe df based on conditions
     for index, row in recipes.iterrows():
 
         include_condition = all(x in recipes.ingredients_joined[index] for x in params_dict["includeIngredients"])
         exclude_condition = any(x in recipes.ingredients_joined[index] for x in params_dict["excludeIngredients"])
-        #difficulty_condition = recipes.difficulty[index] == params_dict["difficulty"]
+        difficulty_condition = recipes.difficulty[index] == params_dict["difficulty"]
 
-        if (include_condition) and not (exclude_condition):
+        if (include_condition) and not (exclude_condition) and difficulty_condition:
             queried_results_list.append(row)
 
 
     return queried_results_list
 
 
-def missing_function(params_dict, index):
+def missing_function(params_dict, counter):
     # This function does now work properly -- Still want to rewrite?
     queried_results_list = query_recipes(params_dict)
-    ingr_needed = [queried_results_list[index]["ingredients_joined"]]
+    ingr_needed = [queried_results_list[counter]["ingredients_joined"]]
     ingr_available = params_dict["includeIngredients"] + basics
 
     ingr_needed = " ".join(ingr_needed).split(" ")
@@ -143,14 +145,14 @@ def transform_for_frontend(params_dict):
 
     formated_dict_list = []
 
-    for index, ser in enumerate(queried_results_list):
+    for counter, ser in enumerate(queried_results_list):
         formated_dict = {
             "image": ser["picture_url"],
             "sourceUrl": ser["link"],
             "title": ser["title"],
             "readyInMinutes": ser["preptime"],
             "missedIngredientCount": 0,
-            "missedIngredients": missing_function(params_dict, index),
+            "missedIngredients": missing_function(params_dict, counter),
             #"missedIngredients": "not",
             "cuisine": ser["cuisine"],
             "difficulty": ser["difficulty"],

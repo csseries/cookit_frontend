@@ -56,7 +56,7 @@ if uploaded_file:
             "includeIngredients": ingredients_selected,
             "excludeIngredients": exclusions,
             #"cuisine": "Mediterranean"
-            #"difficulty": "medium"
+            "difficulty": difficulty
         }
         print(params_dict, "params")
 
@@ -71,7 +71,7 @@ if uploaded_file:
             #recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
             #                      exclusions, cuisines_formatted, diet)
 
-            recipes = transform_for_frontend(params_test)
+            recipes = transform_for_frontend(params_dict)
 
             if len(recipes) > 0:
                 show_recipes(recipes, 3)
