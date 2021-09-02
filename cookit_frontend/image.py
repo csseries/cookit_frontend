@@ -5,6 +5,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageColor, ImageFont
 import streamlit as st
 import numpy as np
+from io import BytesIO
 
 
 @st.cache
@@ -77,14 +78,22 @@ def draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, color,font,
         text_bottom -= text_height - 2 * margin
 
 
+def _font_as_bytes():
+    with open('font/Roboto-Medium.ttf', 'rb') as f:
+        font_bytes = BytesIO(f.read())
+    return font_bytes
+
+
 #@st.cache
-def draw_boxes(image_pil, boxes, class_names, scores, max_boxes=10, min_score=0.1):
+def draw_boxes(image_pil, boxes, class_names, scores):
     """Overlay labeled boxes on an image with formatted scores and label names."""
     colors = list(ImageColor.colormap.values())
 
     try:
-        font = ImageFont.truetype('Arial', 18)
+        #font = ImageFont.truetype('Arial', 18)
+        font = ImageFont.truetype(_font_as_bytes(), 20)
     except:
+        print("Did not find requested font. Use default one")
         font = ImageFont.load_default()
 
     boxes = np.array(boxes)
