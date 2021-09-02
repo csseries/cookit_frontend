@@ -81,11 +81,16 @@ def query_recipes(params_dict):
 
     queried_results_list = []
 
+    for key in params_dict:
+        if type(params_dict[key]) == type([]):
+            for index, item in enumerate(params_dict[key]):
+                params_dict[key][index] = item.lower()
+
     for index, row in recipes.iterrows():
 
         include_condition = all(x in recipes.ingredients_joined[index] for x in params_dict["includeIngredients"])
         exclude_condition = any(x in recipes.ingredients_joined[index] for x in params_dict["excludeIngredients"])
-        #difficulty_condition = recipes.difficulty[index] == params["difficulty"]
+        #difficulty_condition = recipes.difficulty[index] == params_dict["difficulty"]
 
         if (include_condition) and not (exclude_condition):
             queried_results_list.append(row)
