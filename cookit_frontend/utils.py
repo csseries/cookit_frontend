@@ -34,3 +34,7 @@ DIETARY_RESTRICTIONS = [
     "I eat everything", "Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian",
     "Ovo-Vegetarian", "Vegan", "Pescetarian", "Paleo"
 ]
+
+LEVELS = [
+    'Easy', 'Medium', 'Hard'
+]
