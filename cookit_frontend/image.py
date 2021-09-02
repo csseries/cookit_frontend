@@ -75,7 +75,7 @@ def draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, color,font,
                         fill=color)
         draw.text((left + margin, text_bottom - text_height - margin),
                 display_str,
-                fill="black",
+                fill=decide_font_color(color),
                 font=font)
         text_bottom -= text_height - 2 * margin
 
@@ -84,6 +84,25 @@ def _font_as_bytes():
     with open('font/Roboto-Medium.ttf', 'rb') as f:
         font_bytes = BytesIO(f.read())
     return font_bytes
+
+
+def _calc_yiq(hex_color):
+    r = int(hex_color[1:3], base=16)
+    g = int(hex_color[3:5], base=16)
+    b = int(hex_color[5:8], base=16)
+    yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
+    return yiq
+
+
+def decide_font_color(hex_color):
+    """ Returns white/black depending on hex_color to make text on bboxes better
+        readable for all appearing colors. Found in
+        https://gomakethings.com/dynamically-changing-the-text-color-based-on-background-color-contrast-with-vanilla-js/#checking-color-contrast-with-vanillia-js
+    """
+    yiq = _calc_yiq(hex_color)
+    if yiq >= 128:
+        return 'black'
+    return 'white'
 
 
 #@st.cache
