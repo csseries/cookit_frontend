@@ -161,7 +161,7 @@ def find_overlapping_bboxes(data, threshold=0.9):
         else: # if overlap is small, add both
             filtered_data[combo[0]] = data[combo[0]]
             filtered_data[combo[1]] = data[combo[1]]
-        print(f"Keys in dict after iteration: {filtered_data.keys()}")
+        #print(f"Keys in dict after iteration: {filtered_data.keys()}")
 
     # Now remove all overlapping bboxes with pairwise lower score from dict
     for key in drop_list:
