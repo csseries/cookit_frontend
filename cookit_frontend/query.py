@@ -41,6 +41,7 @@ INGREDIENTS = [
 
 
 def import_data():
+    # Connection to database and return an DataFrame called recipes
     DB_PASSWORD = os.environ['DB_PASSWORD']
 
     conn = psycopg2.connect(database="d1hsr1c7nk56dl",
@@ -59,7 +60,7 @@ def import_data():
 
 
 def processing_recipes():
-
+    # Add "ingredients_joined" to recipes df in order to query the recipes
     recipes = import_data()
 
     ingredients_joined = []
@@ -76,16 +77,18 @@ def processing_recipes():
 
 
 def query_recipes(params_dict):
-
+    # query the database  and return a list of series (containing the information regarding the recipes)
     recipes = processing_recipes()
 
     queried_results_list = []
 
+    # lowercase the input from the frontend
     for key in params_dict:
         if type(params_dict[key]) == type([]):
             for index, item in enumerate(params_dict[key]):
                 params_dict[key][index] = item.lower()
 
+    # query the database recipe df based on conditions
     for index, row in recipes.iterrows():
 
         include_condition = all(x in recipes.ingredients_joined[index] for x in params_dict["includeIngredients"])
@@ -99,9 +102,10 @@ def query_recipes(params_dict):
     return queried_results_list
 
 
-def missing_function(params_dict):
+def missing_function(params_dict, index):
+    # This function does now work properly -- Still want to rewrite?
     queried_results_list = query_recipes(params_dict)
-    ingr_needed = [queried_results_list[0]["ingredients_joined"]]
+    ingr_needed = [queried_results_list[index]["ingredients_joined"]]
     ingr_available = params_dict["includeIngredients"] + basics
 
     ingr_needed = " ".join(ingr_needed).split(" ")
@@ -134,18 +138,19 @@ def missing_function(params_dict):
 
 
 def transform_for_frontend(params_dict):
+    # Return a list of dictionaries containing information regarding recipes
     queried_results_list = query_recipes(params_dict)
 
     formated_dict_list = []
 
-    for ser in queried_results_list:
+    for index, ser in enumerate(queried_results_list):
         formated_dict = {
             "image": ser["picture_url"],
             "sourceUrl": ser["link"],
             "title": ser["title"],
             "readyInMinutes": ser["preptime"],
             "missedIngredientCount": 0,
-            "missedIngredients": missing_function(params_dict),
+            "missedIngredients": missing_function(params_dict, index),
             #"missedIngredients": "not",
             "cuisine": ser["cuisine"],
             "difficulty": ser["difficulty"],
