@@ -8,3 +8,4 @@ flake8
 pytest
 yapf
 twine
+psycopg2
