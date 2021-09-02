@@ -6,6 +6,7 @@ from cookit_frontend.utils import BASICS
 
 
 def import_data():
+    print("IMPORT DATA FROM DB")
     # Connection to database and return an DataFrame called recipes
     DB_PASSWORD = os.environ['DB_PASSWORD']
 
@@ -20,6 +21,7 @@ def import_data():
     FROM cookit_recipes
     """
     recipes = pd.read_sql(query, conn)
+    print("DONE WITH IMPORTING DATA FROM DB")
 
     return recipes
 
@@ -40,10 +42,12 @@ def processing_recipes():
 
     return recipes
 
+# Storing the database here in a global variable is not very elegant, but workaround for the moment.
+recipes = processing_recipes()
 
 def query_recipes(params_dict):
     # query the database  and return a list of series (containing the information regarding the recipes)
-    recipes = processing_recipes()
+    global recipes
 
     queried_results_list = []
 
