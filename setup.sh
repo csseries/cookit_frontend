@@ -7,6 +7,7 @@ email = \"michael.weitnauer@gmail.com\"\n\
 
 echo "\
 [server]\n\
+maxUploadSize = 10\n\
 headless = true\n\
 port = $PORT\n\
 " >> ~/.streamlit/config.toml
