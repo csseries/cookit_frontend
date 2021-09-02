@@ -20,8 +20,8 @@ def save_uploaded_file(filename, bytes_image):
     return file_path
 
 
-def resize_image(image_buffer, max_width=512, max_height=512):
-    """ Resizes an PIL.Image type to a given max widht or height
+def resize_image(image_buffer, max_width=800, max_height=800):
+    """ Resizes an PIL.Image type to a given max width or height
         Returns the resized PIL.Image object
     """
     pil_image = Image.open(image_buffer)
@@ -81,7 +81,12 @@ def draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, color,font,
 def draw_boxes(image_pil, boxes, class_names, scores, max_boxes=10, min_score=0.1):
     """Overlay labeled boxes on an image with formatted scores and label names."""
     colors = list(ImageColor.colormap.values())
-    font = ImageFont.load_default()
+
+    try:
+        font = ImageFont.truetype('Arial', 18)
+    except:
+        font = ImageFont.load_default()
+
     boxes = np.array(boxes)
 
     for i in range(min(len(class_names), max_boxes)):

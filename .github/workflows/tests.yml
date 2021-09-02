@@ -14,6 +14,8 @@ jobs:
   #   (the `strategy` key should be at the same level as the `steps` key)
 
   build:
+    env:
+      SPOONACULAR_KEYS: ${{ secrets.SPOONACULAR_KEYS }}
 
     runs-on: ubuntu-latest
 

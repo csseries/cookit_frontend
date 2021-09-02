@@ -10,7 +10,7 @@ else:
     print('Send requests to remote backend url: ', BACKEND_URL)
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache(show_spinner=False)
 def get_predictions(image):
     files = {'image': image}
     response = requests.post(BACKEND_URL, files=files)

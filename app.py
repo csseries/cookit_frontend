@@ -1,75 +1,74 @@
 import streamlit as st
-import os
-import base64
-from PIL import Image
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
-from cookit_frontend.image import resize_image, draw_boxes, pil_to_buffer
+from cookit_frontend.image import resize_image, pil_to_buffer
 from cookit_frontend.page_elements import *
+from cookit_frontend.utils import INGREDIENTS, DIETARY_RESTRICTIONS, CUISINES
 
 page_decorators()
-
 local_css("style.css")
 
-page_title()
+page_header()
 
-#page_slogan()
+uploaded_file = page_pic_uploader()
 
-col1, col2, col3 = st.columns([3,3,3])
-with col1:
-    st.markdown("""
-        ##### 1. Upload picture(s) of your fridge or pantry:
-    """)
-    #Option to upload jpg/ png image that will be used from the model
-    uploaded_file = page_pic_uploader()
-    if uploaded_file:
-        resized_file = resize_image(uploaded_file)
+#Option to upload jpg/ png image that will be used from the model
 
-with col2:
-    if uploaded_file:
-        #resized_file = resize_image(uploaded_file)
+
+if uploaded_file:
+    resized_file = resize_image(uploaded_file)
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        st.write("")
+    with col2:
+        gif_runner = st.image("frontend_img/giphy.gif")
         ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
+        gif_runner.empty()
+    with col3:
+        st.write("")
 
-        all_cuisines = ["African", "American", "British", "Cajun", "Caribbean",
-                    "Chinese", "Eastern European", "European", "French",
-                    "German", "Greek", "Indian", "Irish", "Italian", "Japanese",
-                    "Jewish", "Korean", "Latin American", "Mediterranean",
-                    "Mexican", "Middle Eastern", "Nordic","Southern",
-                    "Spanish", "Thai", "Vietnamese"]
+    if len(ingredients) > 0:
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            st.write("")
+            show_bbox_image(resized_file, bboxes, ingredients, scores)
+            st.write("")
 
-        dietary_resitrictions = ["I eat everything", "Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian",
-                             "Vegan", "Pescetarian", "Paleo"]
-
-        if len(ingredients) > 0:
-            bbox_image = draw_boxes(resized_file, bboxes, ingredients, scores)
-            st.image(bbox_image)
-
-            ingredients_selected = st.multiselect('Check ingredients to include in recipes', ingredients, default=ingredients)
+        with col2:
+            # do not add nonsense ingredients to the list (like "Fruit")
+            filtered_ingredients = [ingr for ingr in ingredients if ingr in INGREDIENTS]
+            ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)",
+                                                  filtered_ingredients, default=filtered_ingredients)
             ingredients_selected_formatted = ", ".join(ingredients_selected)
 
-            must_haves = st.multiselect('Add ingredients that must be included', ingredients_selected)
+            must_haves = st.multiselect('You can add more ingredients', INGREDIENTS)
             must_haves_formatted = ", ".join(must_haves)
 
-            exclusions = st.text_input("What don't you like in your food? (comma-separated)")
+            exclusions = st.multiselect("Anything you really don't like?", INGREDIENTS)
+            exclusions_formatted = ", ".join(exclusions)
 
             #A comma-separated list of cuisines
-            cuisine = st.multiselect('What cuisine would you like to cook?', all_cuisines, default=all_cuisines)
+            cuisine = st.multiselect('Which cuisine do you feel like today?',
+                                     CUISINES, default=CUISINES[0])
+            if len(cuisine) == 1 and cuisine[0] == CUISINES[0]:
+                cuisine = []
+
             cuisines_formatted = ", ".join(cuisine)
 
+
             #Specify a specific diet
-            diet = st.selectbox("Do you have any dietary restrictions?", dietary_resitrictions)
+            diet = st.selectbox("Do you have any dietary restrictions?", DIETARY_RESTRICTIONS)
             if diet == "I eat everything":
                 diet = []
 
-            if st.button('get recipes'):
-                recipes = get_recipes(ingredients_selected_formatted, must_haves_formatted, exclusions, cuisines_formatted, diet)
+        if st.button('get recipes'):
+            recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
+                                  exclusions, cuisines_formatted, diet)
 
-                if len(recipes) > 0:
-                    show_recipes(recipes, 3)
-                else:
-                    st.write("Sorry, we couldn't find any recipes")
-
-        else:
-            st.write("We couldn't find any ingredients on the picture, please upload another file")
-
-#background()
+            if len(recipes) > 0:
+                show_recipes(recipes, 3)
+            else:
+                st.warning("Sorry, we couldn't find any recipes")
+    else:
+        st.warning("We can't identify the ingredients in the picture, please upload another one")
