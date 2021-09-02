@@ -58,39 +58,13 @@ def query_recipes(params_dict):
     return queried_results_list
 
 
-def missing_function(params_dict, index):
-    # This function does now work properly -- Still want to rewrite?
-    queried_results_list = query_recipes(params_dict)
-    ingr_needed = [queried_results_list[index]["ingredients_joined"]]
-    ingr_available = params_dict["includeIngredients"] + basics
+def get_missing_ingredients(recipe_ingredients, ingredients):
+    available_list = []
+    for ingr in ingredients + BASICS:
+        available_list += [x for x in recipe_ingredients if ingr in x]
+    missing = list(set(recipe_ingredients) - set(available_list))
 
-    ingr_needed = " ".join(ingr_needed).split(" ")
-
-    for ingr in ingr_available:
-        for index, string in enumerate(ingr_needed):
-            if ingr in string:
-                del ingr_needed[index]
-
-    ingr_needed_striped = []
-
-    for i in ingr_needed:
-        i = i.strip(",")
-        ingr_needed_striped.append(i)
-
-    ingredients_list = []
-
-    for i in INGREDIENTS:
-        i = i.lower()
-        ingredients_list.append(i)
-
-    return_frontend_list = []
-
-    for i in ingr_needed_striped:
-        if i in ingredients_list:
-            return_frontend_list.append(i)
-
-
-    return return_frontend_list
+    return missing
 
 
 def find_recipes_in_db(ingredients, exclusions, difficulty):
@@ -104,23 +78,22 @@ def find_recipes_in_db(ingredients, exclusions, difficulty):
 
     formated_dict_list = []
 
-    for index, ser in enumerate(queried_results_list):
+    for recipe in queried_results_list:
+        missing_ingredients = get_missing_ingredients(recipe['ingredients'], params_dict['includeIngredients'])
         formated_dict = {
-            "image": ser["picture_url"],
-            "sourceUrl": ser["link"],
-            "title": ser["title"],
-            "readyInMinutes": ser["preptime"],
-            "missedIngredientCount": 0,
-            "missedIngredients": missing_function(params_dict, index),
-            #"missedIngredients": "not",
-            "cuisine": ser["cuisine"],
-            "difficulty": ser["difficulty"],
-            "instructions": ser["instructions"],
-            "calories": ser["calories"],
-            "ingredients": ser["ingredients"]
+            "image": recipe["picture_url"],
+            "sourceUrl": recipe["link"],
+            "title": recipe["title"],
+            "readyInMinutes": recipe["preptime"],
+            "missedIngredientCount": len(missing_ingredients),
+            "missedIngredients": missing_ingredients,
+            "cuisine": recipe["cuisine"],
+            "difficulty": recipe["difficulty"],
+            "instructions": recipe["instructions"],
+            "calories": recipe["calories"],
+            "ingredients": recipe["ingredients"]
         }
 
         formated_dict_list.append(formated_dict)
-
 
     return formated_dict_list
