@@ -1,3 +1,15 @@
 .body {
-    color: white;
+    /* color: white; */
+}
+.reportview-container .main .block-container{
+  max-width: 1000px;
+  padding-top: 0rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+}
+
+.slogan {
+  font-style: bold;
+  text-align: center;
 }

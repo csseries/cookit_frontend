@@ -5,11 +5,10 @@ import cookit_frontend.recipes
 #Test that get_recipes returns something
 def test_return_get_recipes():
     query = ["Pasta", "Zucchini", "Eggplant", "Tomato Sauce"]
-    ingredients = ["Basil"]
     exclusions = ["Garlic"]
     cuisine = ["Italian"]
     diet = ["Vegetarian"]
-    response = get_recipes(query, ingredients, exclusions, cuisine, diet)
+    response = get_recipes(query, exclusions, cuisine, diet)
 
     assert response is not None
 
@@ -23,11 +22,10 @@ def test_base_uri():
 #Test that get_recipes returns a value of type list (response.json()['results'])
 def test_get_recipes_return_value():
     query = ["Pasta", "Zucchini", "Eggplant", "Tomato Sauce"]
-    ingredients = ["Basil"]
     exclusions = ["Garlic"]
     cuisine = ["Italian"]
     diet = ["Vegetarian"]
-    results = get_recipes(query, ingredients, exclusions, cuisine, diet)
+    results = get_recipes(query, exclusions, cuisine, diet)
 
     assert type(results) == list
 

@@ -1,86 +1,74 @@
 import streamlit as st
-import os
-import base64
-from PIL import Image
 from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
-from cookit_frontend.image import resize_image, draw_boxes, pil_to_buffer
+from cookit_frontend.image import resize_image, pil_to_buffer
 from cookit_frontend.page_elements import *
-from load_css import local_css
+from cookit_frontend.utils import INGREDIENTS, DIETARY_RESTRICTIONS, CUISINES
 
 page_decorators()
-
 local_css("style.css")
 
-page_title()
+page_header()
 
-#page_slogan()
+uploaded_file = page_pic_uploader()
 
 #Option to upload jpg/ png image that will be used from the model
-uploaded_file = page_pic_uploader()
+
 
 if uploaded_file:
     resized_file = resize_image(uploaded_file)
-    ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
 
-    all_cuisines = ["I don't have any preferences", "African", "American", "British", "Cajun", "Caribbean",
-                    "Chinese", "Eastern European", "European", "French",
-                    "German", "Greek", "Indian", "Irish", "Italian", "Japanese",
-                    "Jewish", "Korean", "Latin American", "Mediterranean",
-                    "Mexican", "Middle Eastern", "Nordic","Southern",
-                    "Spanish", "Thai", "Vietnamese"]
-
-    dietary_resitrictions = ["I eat everything", "Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian",
-                             "Vegan", "Pescetarian", "Paleo"]
-
-    # All veg and fruit classes plus cheese and egg from Open Images Dataset V6
-    food_classes_oiv6 = ['Apple', 'Artichoke', 'Aspargus', 'Banana', 'Beer', \
-                    'Bell pepper', 'Bread', 'Broccoli', 'Cabbage', 'Cantaloupe',\
-                    'Carrot', 'Cheese', 'Coconut', 'Cucumber', 'Celery', 'Egg',\
-                   'Green Asparagus', 'Grape', 'Grapefruit', 'Lemon',\
-                   'Mango', 'Mushroom', 'Orange', 'Pear', 'Pineapple',\
-                   'Pomegranate', 'Potato', 'Pumpkin', 'Radish', 'Squash',\
-                   'Strawberry', 'Tomato', 'Watermelon', 'Zucchini',
-                   'Rice', 'Pasta', 'Oats', 'Peanut Butter', 'Cream', 'Joghurt']
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        st.write("")
+    with col2:
+        gif_runner = st.image("frontend_img/giphy.gif")
+        ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
+        gif_runner.empty()
+    with col3:
+        st.write("")
 
     if len(ingredients) > 0:
-        col1, col2 = st.columns([2, 1])
+        col1, col2 = st.columns([1, 1])
         with col1:
             st.write("")
             show_bbox_image(resized_file, bboxes, ingredients, scores)
             st.write("")
 
         with col2:
-            ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)", ingredients, default=ingredients)
+            # do not add nonsense ingredients to the list (like "Fruit")
+            filtered_ingredients = [ingr for ingr in ingredients if ingr in INGREDIENTS]
+            ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)",
+                                                  filtered_ingredients, default=filtered_ingredients)
             ingredients_selected_formatted = ", ".join(ingredients_selected)
 
-            must_haves = st.multiselect('You can add more ingredients', food_classes_oiv6)
+            must_haves = st.multiselect('You can add more ingredients', INGREDIENTS)
             must_haves_formatted = ", ".join(must_haves)
 
-            exclusions = st.multiselect("Anything you really don't like?", food_classes_oiv6)
+            exclusions = st.multiselect("Anything you really don't like?", INGREDIENTS)
             exclusions_formatted = ", ".join(exclusions)
 
             #A comma-separated list of cuisines
-            cuisine = st.multiselect('Which cuisine do you feel like today?', all_cuisines)
-            if cuisine == "I don't have any preferences":
+            cuisine = st.multiselect('Which cuisine do you feel like today?',
+                                     CUISINES, default=CUISINES[0])
+            if len(cuisine) == 1 and cuisine[0] == CUISINES[0]:
                 cuisine = []
 
             cuisines_formatted = ", ".join(cuisine)
 
 
             #Specify a specific diet
-            diet = st.selectbox("Do you have any dietary restrictions?", dietary_resitrictions)
+            diet = st.selectbox("Do you have any dietary restrictions?", DIETARY_RESTRICTIONS)
             if diet == "I eat everything":
                 diet = []
 
         if st.button('get recipes'):
-            recipes = get_recipes(ingredients_selected_formatted, must_haves_formatted, exclusions, cuisines_formatted, diet)
+            recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
+                                  exclusions, cuisines_formatted, diet)
 
             if len(recipes) > 0:
                 show_recipes(recipes, 3)
             else:
-                st.write("<span class='body'>Sorry, we couldn't find any recipes</span>", unsafe_allow_html=True)
+                st.warning("Sorry, we couldn't find any recipes")
     else:
-        st.write("<span class='body'>We can't identify the ingredients in the picture, please upload another one</span>", unsafe_allow_html=True)
-
-background()
+        st.warning("We can't identify the ingredients in the picture, please upload another one")
