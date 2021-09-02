@@ -16,9 +16,15 @@ BASE_URI = 'https://api.spoonacular.com/recipes/complexSearch'
 KEY_IDX = 0 # initial value for api keys
 
 
+<<<<<<< HEAD
 
 def get_recipes(ingredients, exclusions, cuisine, diet):
     global KEY_IDX
+=======
+def get_recipes(ingredients, exclusions, cuisine, diet):
+    global KEY_IDX
+    print(f"Using API key index: {KEY_IDX}")
+>>>>>>> bdb5bd84b8d54cefa71dce11206e4b84a29272d2
     offset = random.randint(0, 20)
     # See https://spoonacular.com/food-api/docs#Search-Recipes-Complex
     params = {'apiKey': api_keys[KEY_IDX],
@@ -43,8 +49,15 @@ def get_recipes(ingredients, exclusions, cuisine, diet):
               #The direction in which to sort. Must be either 'asc' (ascending) or 'desc' (descending)
               "sortDirection": "asc",
               #Number of expected results (between 1 and 100)
+<<<<<<< HEAD
               "number": 15,
               # The number of results to skip (between 0 and 900).
+=======
+              "number": 3,
+              # The number of results to skip (between 0 and 900).
+              # This is a bit risky in cases where less recipes were found than the offset value;
+              # --> the API is then returning no recipes.
+>>>>>>> bdb5bd84b8d54cefa71dce11206e4b84a29272d2
               "offset": offset}
 
     response = requests.get(BASE_URI, params)
