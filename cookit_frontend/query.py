@@ -32,9 +32,10 @@ def processing_recipes():
 
     ingredients_joined = []
     for row in recipes.ingredients:
-        ingredients_joined.append(" ".lower().join(row))
+        ingredients_joined.append(" ".join(row))
 
     recipes["ingredients_joined"] = ingredients_joined
+    recipes["ingredients_joined"] = recipes["ingredients_joined"].apply(str.lower)
 
     return recipes
 
@@ -97,4 +98,7 @@ def find_recipes_in_db(ingredients, exclusions):
 
         formated_dict_list.append(formated_dict)
 
-    return formated_dict_list
+    # sort by missing ingredients ascending
+    resorted_list = sorted(formated_dict_list, key=lambda k: k['missedIngredientCount'])
+
+    return resorted_list

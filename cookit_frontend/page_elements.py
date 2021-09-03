@@ -96,6 +96,7 @@ def show_recipes(recipes, display_count=3):
             show_img_with_href(recipes[i]['image'], recipes[i]["sourceUrl"])
             st.markdown(f"### {recipes[i]['title']}")
             st.write(f"Time: {recipes[i]['readyInMinutes']} minutes")
+            st.write(f"Difficulty: {recipes[i]['difficulty']}")
             st.write("[Cookit !] (%s)" % recipes[i]["sourceUrl"])
 
             #Additional ingredients
@@ -110,6 +111,6 @@ def show_img_with_href(img_url, target_url):
     """ Display image with href in new browser tab"""
     html_code = f'''
         <a href="{target_url}" target="_blank" rel="noopener noreferrer">
-            <img src="{img_url}" style="width: 90%"/>
+            <img src="{img_url}" style="width: 100%"/>
         </a>'''
     st.markdown(html_code, unsafe_allow_html=True)
