@@ -34,3 +34,14 @@ DIETARY_RESTRICTIONS = [
     "I eat everything", "Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian",
     "Ovo-Vegetarian", "Vegan", "Pescetarian", "Paleo"
 ]
+
+LEVELS = [
+    'Easy', 'Medium', 'Hard'
+]
+
+BASICS = [
+    "salt", "pepper", "herbs", "water", "milk", "pasta", "rice", "flour",
+    "olive oil", "sunflower oil", "corn starch", "sugar", "vinegar", "tea",
+    "coffee", "almonds", "stock", "egg", "spices", "honey", "wine",
+    "tomato paste"
+]

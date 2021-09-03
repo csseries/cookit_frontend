@@ -97,15 +97,11 @@ def show_recipes(recipes, display_count=3):
             st.write("[Cookit !] (%s)" % recipes[i]["sourceUrl"])
 
             #Additional ingredients
-            missing_ingredients = []
             if recipes[i]["missedIngredientCount"] > 0:
-                for ingr in recipes[i]["missedIngredients"]:
-                    missing_ingredients.append(ingr["name"].capitalize())
-            st.markdown(f"""
-                        You'll need these additional ingredients:
+                st.markdown(f"You'll need these additional ingredients:")
+                for missing in recipes[i]["missedIngredients"]:
+                    st.markdown(f"- {missing}")
 
-                        {", ".join(missing_ingredients)}
-                        """)
 
 #@st.cache(allow_output_mutation=True)
 def show_img_with_href(img_url, target_url):
