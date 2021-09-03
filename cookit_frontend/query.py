@@ -98,4 +98,7 @@ def find_recipes_in_db(ingredients, exclusions):
 
         formated_dict_list.append(formated_dict)
 
-    return formated_dict_list
+    # sort by missing ingredients ascending
+    resorted_list = sorted(formated_dict_list, key=lambda k: k['missedIngredientCount'])
+
+    return resorted_list
