@@ -10,13 +10,8 @@ def local_css(file_name):
     '''loads the local 'style.css' file into the app'''
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-<<<<<<< HEAD
 
-def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-=======
->>>>>>> bdb5bd84b8d54cefa71dce11206e4b84a29272d2
+
 
 
 def page_decorators():
@@ -104,15 +99,11 @@ def show_recipes(recipes, display_count=3):
             st.write("[Cookit !] (%s)" % recipes[i]["sourceUrl"])
 
             #Additional ingredients
-            missing_ingredients = []
             if recipes[i]["missedIngredientCount"] > 0:
-                for ingr in recipes[i]["missedIngredients"]:
-                    missing_ingredients.append(ingr["name"].capitalize())
-            st.markdown(f"""
-                        You'll need these additional ingredients:
+                st.markdown(f"You'll need these additional ingredients:")
+                for missing in recipes[i]["missedIngredients"]:
+                    st.markdown(f"- {missing}")
 
-                        {", ".join(missing_ingredients)}
-                        """)
 
 #@st.cache(allow_output_mutation=True)
 def show_img_with_href(img_url, target_url):

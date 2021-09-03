@@ -111,15 +111,11 @@ def draw_boxes(image_pil, boxes, class_names, scores):
     colors = list(ImageColor.colormap.values())
 
     try:
-<<<<<<< HEAD
-        font = ImageFont.truetype('Arial', 18)
-    except:
-=======
+
         #font = ImageFont.truetype('Arial', 18)
         font = ImageFont.truetype(_font_as_bytes(), 20)
     except:
         print("Did not find requested font. Use default one")
->>>>>>> bdb5bd84b8d54cefa71dce11206e4b84a29272d2
         font = ImageFont.load_default()
 
     boxes = np.array(boxes)
