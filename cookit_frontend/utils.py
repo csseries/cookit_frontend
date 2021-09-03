@@ -1,10 +1,10 @@
 INGREDIENTS = [
     'Acorn Squash', 'Almond flour', 'Almonds', 'Apple', 'Apricots',
     'Artichoke', 'Artichokes', 'Asparagus', 'Aspargus', 'Avacado', 'Banana',
-    'Banana Peppers', 'Bananas', 'Beef', 'Beer', 'Beets', 'Bell pepper', 'Black Beans',
+    'Banana Peppers', 'Bananas', 'Beans', 'Beef', 'Beer', 'Beets', 'Bell pepper', 'Black Beans',
     'Blackberries', 'Blueberries', 'Bread', 'Broccoli', 'Cabbage', 'Cantaloupe',
     'Carrot', 'Cauliflower', 'Cayenne pepper', 'Celeriac',
-    'Celery', 'Cheese', 'Cherries', 'Chili', 'Chocolate', 'Coconut', 'Collards',
+    'Celery', 'Cheese', 'Cherries', 'Chili', 'Chocolate', 'Chicken', 'Coconut', 'Collards',
     'Corn', 'Corn stach', 'Cranberries', 'Cranberry Beans', 'Cream', 'Cucumber',
     'Egg', 'Eggplant', 'Figs', 'Fish', 'Flour', 'Garlic', 'Ginger',
     'Grape', 'Grapefruit', 'Grapes', 'Green Asparagus', 'Green Beans', 'Guava',
@@ -20,7 +20,7 @@ INGREDIENTS = [
     'Shallots', 'Soya sauce', 'Soybeans', 'Spaghetti Squash', 'Spinach', 'Squash',
     'Strawberries', 'Strawberry', 'Sugar Snap Peas', 'Summer Squash', 'Sunflower Seeds',
     'Sunflower oil', 'Sweet Green Pepper', 'Sweet Potato', 'Sweet Red Peppers',
-    'Sweet Yellow Peppers', 'Swiss Chard', 'Tangerines', 'Tomato', 'Tomatoes',
+    'Sweet Yellow Peppers', 'Swiss Chard', 'Tangerines', 'Tofu', 'Tomato', 'Tomatoes',
     'Truit', 'Turnips', 'Veal', 'Walnuts', 'Watermelon', 'Yams', 'Zucchini']
 
 CUISINES = [
@@ -41,7 +41,8 @@ LEVELS = [
 
 BASICS = [
     "salt", "pepper", "herbs", "water", "milk", "pasta", "rice", "flour",
-    "olive oil", "sunflower oil", "corn starch", "sugar", "vinegar", "tea",
+    "olive oil", "sunflower oil", 'oil', "corn starch", "sugar", "vinegar", "tea",
     "coffee", "almonds", "stock", "egg", "spices", "honey", "wine",
-    "tomato paste"
+    "tomato paste", 'soy sauce', 'sirup', 'cinnamon', 'smoked paprika', 'curry',
+    'cumin', 'oregano', 'thyme', 'baking powder', 'natron', 'cayenne pepper'
 ]
