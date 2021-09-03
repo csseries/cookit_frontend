@@ -94,6 +94,7 @@ def show_recipes(recipes, display_count=3):
             show_img_with_href(recipes[i]['image'], recipes[i]["sourceUrl"])
             st.markdown(f"### {recipes[i]['title']}")
             st.write(f"Time: {recipes[i]['readyInMinutes']} minutes")
+            st.write(f"Difficulty: {recipes[i]['difficulty']}")
             st.write("[Cookit !] (%s)" % recipes[i]["sourceUrl"])
 
             #Additional ingredients
