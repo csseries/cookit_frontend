@@ -32,9 +32,10 @@ def processing_recipes():
 
     ingredients_joined = []
     for row in recipes.ingredients:
-        ingredients_joined.append(" ".lower().join(row))
+        ingredients_joined.append(" ".join(row))
 
     recipes["ingredients_joined"] = ingredients_joined
+    recipes["ingredients_joined"] = recipes["ingredients_joined"].apply(str.lower)
 
     return recipes
 
