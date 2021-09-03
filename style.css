@@ -13,3 +13,13 @@
   font-style: bold;
   text-align: center;
 }
+
+p a{
+  color: #fff !important;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: larger;
+  background-color: #48752E;
+  padding: 5px 5px 5px 5px;
+  border-radius: 3px;
+}

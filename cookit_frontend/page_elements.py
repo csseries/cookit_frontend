@@ -12,6 +12,8 @@ def local_css(file_name):
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 
+
+
 def page_decorators():
     st.set_page_config(page_title='cookit', page_icon="frontend_img/favicon.png")
 
@@ -94,24 +96,21 @@ def show_recipes(recipes, display_count=3):
             show_img_with_href(recipes[i]['image'], recipes[i]["sourceUrl"])
             st.markdown(f"### {recipes[i]['title']}")
             st.write(f"Time: {recipes[i]['readyInMinutes']} minutes")
+            st.write(f"Difficulty: {recipes[i]['difficulty'].lower()}")
             st.write("[Cookit !] (%s)" % recipes[i]["sourceUrl"])
 
             #Additional ingredients
-            missing_ingredients = []
             if recipes[i]["missedIngredientCount"] > 0:
-                for ingr in recipes[i]["missedIngredients"]:
-                    missing_ingredients.append(ingr["name"].capitalize())
-            st.markdown(f"""
-                        You'll need these additional ingredients:
+                st.markdown(f"You'll need these additional ingredients:")
+                for missing in recipes[i]["missedIngredients"]:
+                    st.markdown(f"- {missing}")
 
-                        {", ".join(missing_ingredients)}
-                        """)
 
 #@st.cache(allow_output_mutation=True)
 def show_img_with_href(img_url, target_url):
     """ Display image with href in new browser tab"""
     html_code = f'''
         <a href="{target_url}" target="_blank" rel="noopener noreferrer">
-            <img src="{img_url}" style="width: 90%"/>
+            <img src="{img_url}" style="width: 100%"/>
         </a>'''
     st.markdown(html_code, unsafe_allow_html=True)

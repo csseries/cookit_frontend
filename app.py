@@ -3,7 +3,8 @@ from cookit_frontend.recipes import get_recipes
 from cookit_frontend.communcation import get_predictions
 from cookit_frontend.image import resize_image, pil_to_buffer
 from cookit_frontend.page_elements import *
-from cookit_frontend.utils import INGREDIENTS, DIETARY_RESTRICTIONS, CUISINES
+from cookit_frontend.utils import INGREDIENTS, LEVELS
+from cookit_frontend.query import find_recipes_in_db
 
 page_decorators()
 local_css("style.css")
@@ -40,31 +41,19 @@ if uploaded_file:
             filtered_ingredients = [ingr for ingr in ingredients if ingr in INGREDIENTS]
             ingredients_selected = st.multiselect("We found these ingredients (delete any you don't want to use)",
                                                   filtered_ingredients, default=filtered_ingredients)
-            ingredients_selected_formatted = ", ".join(ingredients_selected)
 
             must_haves = st.multiselect('You can add more ingredients', INGREDIENTS)
-            must_haves_formatted = ", ".join(must_haves)
 
             exclusions = st.multiselect("Anything you really don't like?", INGREDIENTS)
-            exclusions_formatted = ", ".join(exclusions)
 
-            #A comma-separated list of cuisines
-            cuisine = st.multiselect('Which cuisine do you feel like today?',
-                                     CUISINES, default=CUISINES[0])
-            if len(cuisine) == 1 and cuisine[0] == CUISINES[0]:
-                cuisine = []
-
-            cuisines_formatted = ", ".join(cuisine)
-
-
-            #Specify a specific diet
-            diet = st.selectbox("Do you have any dietary restrictions?", DIETARY_RESTRICTIONS)
-            if diet == "I eat everything":
-                diet = []
+            #Specify level of recipe difficulty
+            #difficulty = st.selectbox("How difficult should your recipe be?", LEVELS)
 
         if st.button('get recipes'):
-            recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
-                                  exclusions, cuisines_formatted, diet)
+            #recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
+            #                      exclusions, cuisines_formatted, diet)
+
+            recipes = find_recipes_in_db(ingredients_selected + must_haves, exclusions)
 
             if len(recipes) > 0:
                 show_recipes(recipes, 3)
