@@ -47,13 +47,13 @@ if uploaded_file:
             exclusions = st.multiselect("Anything you really don't like?", INGREDIENTS)
 
             #Specify level of recipe difficulty
-            difficulty = st.selectbox("How difficult should your recipe be?", LEVELS)
+            #difficulty = st.selectbox("How difficult should your recipe be?", LEVELS)
 
         if st.button('get recipes'):
             #recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
             #                      exclusions, cuisines_formatted, diet)
 
-            recipes = find_recipes_in_db(ingredients_selected + must_haves, exclusions, difficulty)
+            recipes = find_recipes_in_db(ingredients_selected + must_haves, exclusions)
 
             if len(recipes) > 0:
                 show_recipes(recipes, 3)

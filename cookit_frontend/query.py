@@ -50,9 +50,10 @@ def query_recipes(params_dict):
     for index, row in recipes.iterrows():
         include_condition = all(x in recipes.ingredients_joined[index] for x in params_dict["includeIngredients"])
         exclude_condition = any(x in recipes.ingredients_joined[index] for x in params_dict["excludeIngredients"])
-        difficulty_condition = recipes.difficulty[index] == params_dict["difficulty"]
+        #difficulty_condition = recipes.difficulty[index] == params_dict["difficulty"]
 
-        if include_condition and not exclude_condition and difficulty_condition:
+        #if include_condition and not exclude_condition and difficulty_condition:
+        if include_condition and not exclude_condition:
             queried_results_list.append(row)
 
     return queried_results_list
@@ -67,11 +68,11 @@ def get_missing_ingredients(recipe_ingredients, ingredients):
     return missing
 
 
-def find_recipes_in_db(ingredients, exclusions, difficulty):
+def find_recipes_in_db(ingredients, exclusions):
     params_dict = {
         "includeIngredients": [i.lower() for i in ingredients],
         "excludeIngredients": [i.lower() for i in exclusions],
-        "difficulty": difficulty.lower()
+        #"difficulty": difficulty.lower()
     }
     # Return a list of dictionaries containing information regarding recipes
     queried_results_list = query_recipes(params_dict)
