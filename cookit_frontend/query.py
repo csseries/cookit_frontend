@@ -63,7 +63,7 @@ def query_recipes(params_dict):
 def get_missing_ingredients(recipe_ingredients, ingredients):
     available_list = []
     for ingr in ingredients + BASICS:
-        available_list += [x for x in recipe_ingredients if ingr in x]
+        available_list += [x for x in recipe_ingredients if ingr.lower() in x.lower()]
     missing = list(set(recipe_ingredients) - set(available_list))
 
     return missing
