@@ -13,7 +13,8 @@ else:
 @st.cache(show_spinner=False)
 def get_predictions(image):
     files = {'image': image}
-    response = requests.post(BACKEND_URL, files=files)
+    payload = {'threshold': 0.3}
+    response = requests.post(BACKEND_URL, files=files, data=payload)
 
     if response.status_code == 200:
         res = response.json()
