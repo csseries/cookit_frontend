@@ -109,6 +109,6 @@ def show_img_with_href(img_url, target_url):
     """ Display image with href in new browser tab"""
     html_code = f'''
         <a href="{target_url}" target="_blank" rel="noopener noreferrer">
-            <img src="{img_url}" style="width: 90%"/>
+            <img src="{img_url}" style="width: 100%"/>
         </a>'''
     st.markdown(html_code, unsafe_allow_html=True)
