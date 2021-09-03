@@ -44,5 +44,6 @@ BASICS = [
     "olive oil", "sunflower oil", 'oil', "corn starch", "sugar", "vinegar", "tea",
     "coffee", "almonds", "stock", "egg", "spices", "honey", "wine",
     "tomato paste", 'soy sauce', 'sirup', 'cinnamon', 'smoked paprika', 'curry',
-    'cumin', 'oregano', 'thyme', 'baking powder', 'natron', 'cayenne pepper'
+    'cumin', 'oregano', 'thyme', 'baking powder', 'natron', 'cayenne pepper', 'onion', 'garlic',
+    'lime', 'lemon', 'coriander', 'basil', 'rosemary'
 ]
