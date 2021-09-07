@@ -24,9 +24,11 @@ if uploaded_file:
     with col1:
         st.write("")
     with col2:
+        info = st.info("Your photo is being processed - this may take a few seconds")
         gif_runner = st.image("frontend_img/giphy.gif")
         ingredients, scores, bboxes = get_predictions(pil_to_buffer(resized_file))
         gif_runner.empty()
+        info.empty()
     with col3:
         st.write("")
 

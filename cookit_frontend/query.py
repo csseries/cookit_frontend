@@ -32,7 +32,7 @@ except:
 
 # Caches the connection and avoids a re-connection every time the user changes something
 # Seen in https://discuss.streamlit.io/t/prediction-analysis-and-creating-a-database/3504
-@st.cache(hash_funcs={connection: id})
+@st.cache(hash_funcs={connection: id}, show_spinner=False)
 def open_db_connection():
     conn = psycopg2.connect(database="d1hsr1c7nk56dl",
                             user=DB_USER,
