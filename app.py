@@ -4,7 +4,8 @@ from cookit_frontend.communcation import get_predictions
 from cookit_frontend.image import resize_image, pil_to_buffer
 from cookit_frontend.page_elements import *
 from cookit_frontend.utils import INGREDIENTS, LEVELS
-from cookit_frontend.query import find_recipes_in_db
+from cookit_frontend.query import find_recipes_in_db, open_db_connection
+
 
 page_decorators()
 local_css("style.css")
@@ -13,8 +14,8 @@ page_header()
 
 uploaded_file = page_pic_uploader()
 
-#Option to upload jpg/ png image that will be used from the model
-
+# establish db connection and keep it open in the cache
+db_conn = open_db_connection()
 
 if uploaded_file:
     resized_file = resize_image(uploaded_file)
@@ -50,10 +51,7 @@ if uploaded_file:
             #difficulty = st.selectbox("How difficult should your recipe be?", LEVELS)
 
         if st.button('get recipes'):
-            #recipes = get_recipes(f"{ingredients_selected_formatted}, {must_haves_formatted}",
-            #                      exclusions, cuisines_formatted, diet)
-
-            recipes = find_recipes_in_db(ingredients_selected + must_haves, exclusions)
+            recipes = find_recipes_in_db(db_conn, ingredients_selected + must_haves, exclusions)
 
             if len(recipes) > 0:
                 show_recipes(recipes, 3)
